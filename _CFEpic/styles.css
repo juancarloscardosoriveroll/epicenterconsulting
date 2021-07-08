@@ -1,0 +1,48 @@
+/* HELPER GENERAL STYLES */
+body {background-color: #262624;}
+.menu {text-align: right; float: right; padding-right: 10px;}
+.container {padding-top: 50px;}
+.search {color: #ffffff; font-weight: bold; font-size: 18px; padding-right: 10px;}
+.footer {color: #ffffff; font-weight: bold; font-size: 12px; padding-top: 10px; padding-left: 10px;}
+.label {color: #ffffff; font-weight: bold; font-size: 18px;}
+
+/* USED TO TOGGLE DIV VISIBILITY ON INDEX */
+.custom-register            { display: none; }
+.custom-register.is-active  { display: block; }
+
+/* STYLE ACCORDION */
+#accordion .ui-accordion-content {
+    width: 100%;
+    background-color: #353535;
+    color: #ffffff;
+    font-size: 10pt;
+    line-height: 16pt;
+  }
+
+  #accordion .ui-accordion-header {
+    background-color: #262624;
+    color: #ffffff;
+    margin: 0px;
+    font-size: 14pt;
+    font-weight: bolder;
+  }
+
+  #accordion .ui-accordion-header a {
+    border-right: 1px solid rgba(0, 0, 0, .2);
+    border-left: 1px solid rgba(0, 0, 0, .2);
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+    border-top: 1px solid rgba(250, 250, 250, .2);
+  }
+
+  #accordion .ui-accordion-content  {
+    border-right: 1px solid rgba(0, 0, 0, .2);
+    border-left: 1px solid rgba(0, 0, 0, .2);
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+    border-top: 1px solid rgba(250, 250, 250, .2);
+  }
+
+  /* STYLE CARD CONTAINER */
+  .card-body {background-color: #353535}
+  .card-header {background-color: #5b5c4c;}
+  .card {background-color: #353535} 
+
