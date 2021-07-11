@@ -9,11 +9,12 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
 <cfparam name="url.daCase" default="">
 
 <!--- DEFAULT SETTINGS --->
+<cfset resultCode = -1000>
 <cfset Result = structnew()>
+<cfset Result["success"] = false>
 <cfset Result["view"] = "stay;self">
 <cfset Result["data"] = structnew()>
-<cfset Result["success"] = true>
-
+<cfset Result["message"] = "Not implemented">
 
 <cfswitch expression="#url.daCase#">
 
@@ -33,17 +34,15 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
                 userPhone="#form.userPhone#">
         </cfif>
 
+        <!--- Good Result (Registry Success) --->
         <cfif resultCode GT 0>
-            <!--- Good Result (Registry Success) --->
+            <cfset Result["success"] = true>
             <cfset Result["message"] = Application.labels["register_success"]>
             <cfset Result["view"] = "redirect;" & Application.urlPath & "/?view=userList&userid=" & resultCode>
             <cfset form["userId"] = resultCode> <!--- add this to form to customize msg --->
-        <cfelse>
-            <!--- Bad Result (Registry Failed) --->
-            <cfset Result["success"] = false>
-            <cfset Result["message"] = evaluate('Application.errors.E_#abs(resultCode)#')>
         </cfif>
     </cfcase>
+
 
     <cfcase value="userPermits">
         <cfif Not(isdefined("session.userid"))>
@@ -56,18 +55,15 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
             <!--- Run Component to Set Permits --->
             <cfparam name="form.permitName" default=""> <!--- if null must exist to delete --->
             <cfinvoke component="/root/functions/users" method="setPermits" returnvariable="resultCode"
-                  permitNames="#form.permitName#" userid="#form.userId#" >
+                  permitNames="#form.permitName#" 
+                  userid="#form.userId#" >
         </cfif>
 
-        <cfif resultCode GTE 0>
-            <!--- Good Result (Registry Success) --->
+        <!--- Good Result (update Success) --->
+        <cfif resultCode GT 0>
+            <cfset Result["success"] = true>
             <cfset Result["message"] = Application.labels["useredit_permits_success"]>
-        <cfelse>
-            <!--- Bad Result (Registry Failed) --->
-            <cfset Result["success"] = false>
-            <cfset Result["message"] = evaluate('Application.errors.E_#abs(resultCode)#')>
         </cfif>
-
     </cfcase>
 
 
@@ -78,13 +74,13 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
         <cfset Result["message"] = "userEdit OK">
     </cfcase>
 
-    <cfdefaultcase>
-        <!--- Default Error Response --->
-        <cfset Result["success"] = false>
-        <cfset Result["message"] = "missing daCase in action URL">
-    </cfdefaultcase>
 </cfswitch>
 
+<!------------------------------------ RETURN ------------------------------------->
+<cfif Not(result.success)>
+    <!--- Replace with corresponding ErrorMessage --->
+    <cfset Result["message"] = evaluate('Application.errors.E_#abs(resultCode)#')>
+</cfif>
 <!--- Wow factor, replace all string pointers with value of Variables --->
 <cfset Result["message"] = Application.helper.replaceVars(result.message,form)>
 <cfoutput>#serializeJSON(Result)#</cfoutput>

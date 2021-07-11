@@ -5,6 +5,7 @@
 * File Structure
 * Database Structure
 * Application Structure
+* To-do's
 
 ## Features
 - Configurable 
@@ -21,8 +22,6 @@
     - Responsive template
 
 ## File Structure
-- Application.cfc (app settings)
-- index.cfm (starting page)
 - "/assets" (media)
 - "/functions" (scripts)
     - helper: general tools
@@ -37,11 +36,14 @@
     - start: /admin/dist/index.html
 - "/tests" (temp)
 - "/views" (nav pages /?view=)
+- Application.cfc (app settings)
+- index.cfm (starting page)
+
 
 ## Database Structure
 - _users : contains records of system accounts
 - _permits : gives specic permit to specific user 
-_ _errors : holds any catched exceptions
+- _errors : holds any catched exceptions
 
 ## Application Structure
 - Application.datasource : registered CF Datasource for SQL
@@ -49,3 +51,22 @@ _ _errors : holds any catched exceptions
 - this.mappings.root : Path to root of hosted app (filesystem)
 - this.devMode : set to true to force Login and block all pages
 - ?init : restarts the application
+
+
+## to-do's
+- USERS
+    - Implement Password Change (self can change, rest only with permit)
+    - Implement User Profile Update (remember to put userID on header)
+    - Implement User isActive Change
+    - Implement Associated Profile with Permits
+    - Implement Selectable Profile on Account Create/Edit
+    - Implement Login (discard password recovery/reset, internal task)
+    - Implement Logout (Session.userID)
+    - Factorize labels (userEdit)
+    - Validate Access Permits (userEdit)
+    - Setup TestScripts for Users Functions
+- GENERAL
+    - Migrate Labels & Errors to DB
+    - BlockUI in daForm to prevent Duplicate Inserts
+    - Session expiry/Redirect to Logout
+    - Script Database Tables in Admin Section
