@@ -1,6 +1,65 @@
 <cfcomponent>
-    <cffunction name="getLangFile" hint="Loads Language File and returns a simple Struct">
+    <cffunction name="getLangFile" hint="Loads Language File and returns a simple Struct" returntype="struct" access="public">
         <cffile action="read" file="#expandpath('/root/includes/labels.json')#" variable="labels">
         <cfreturn deserializeJSON(labels)>        
     </cffunction>
+
+    <cffunction name="getErrorFile" hint="Loads ErrorLang File and returns a simple Struct" returntype="struct" access="public">
+        <cffile action="read" file="#expandpath('/root/includes/errors.json')#" variable="errors">
+        <cfreturn deserializeJSON(errors)>        
+    </cffunction>
+
+    <cffunction name="getSetupFile" hint="Loads Settings File and returns a simple Struct" returntype="struct" access="public">
+        <cffile action="read" file="#expandpath('/root/includes/settings.json')#" variable="setup">
+        <cfreturn deserializeJSON(setup)>        
+    </cffunction>
+
+    <cffunction name="getPermitFile" hint="Loads Permits BaseFile and returns a simple array" returntype="array" access="public">
+        <cffile action="read" file="#expandpath('/root/includes/permits.json')#" variable="permits">
+        <cfreturn deserializeJSON(permits)>         
+    </cffunction>
+
+    <cffunction name="hasPermit" hint="Returns true or false based on asset and method" returntype="boolean" access="public">
+        <cfargument name="userId" type="numeric">
+        <cfargument name="permitName" type="string" hint="Name of registered asset">
+        
+        <cfquery dbtype="odbc" datasource="#application.datasource#" name="result"> 
+            select count(permitId) as total from _permits 
+            where userid = <cfqueryparam value="#arguments.userid#">
+              and rtrim(permitName) = <cfqueryparam value="#arguments.permitName#">
+        </cfquery>
+        <cfif result.total gt 0> <cfreturn true> 
+        <cfelse>  <cfreturn false> </cfif>
+    </cffunction>
+
+    <cffunction name="replaceVars" hint="replaces vars in a String for custom labels and errors using prefix %">
+        <cfargument name="message" type="string">
+        <cfargument name="varstruct" type="struct">
+        <cfset myMessage = arguments.message>
+        <cfloop collection="#arguments.varStruct#" item="arg">
+            <cfset myMessage = replacenocase(myMessage,"%" & arg,evaluate('arguments.varStruct.#arg#'),'ALL')>
+        </cfloop>
+        <cfreturn myMessage>
+    </cffunction>
+
+    <cffunction name="logCatchError" hint="Logs all Catch Errors for Debugging" returntype="boolean" access="public">
+        <cfargument name="catchService">
+        <cfargument name="catchArguments">
+        <cfargument name="catchMessage">
+        <cftry>
+            <cfquery dbtype="odbc" datasource="#application.datasource#" name="log">
+                insert into _errors (
+                     catchService
+                    ,catchArguments
+                    ,catchMessage)
+                values (
+                     <cfqueryparam value="#arguments.catchService#">
+                    ,<cfqueryparam value="#serializeJSON(arguments.catchArguments)#">
+                    ,<cfqueryparam value="#serializeJSON(arguments.catchMessage)#">)
+            </cfquery>
+            <cfreturn true>
+            <cfcatch><cfreturn false></cfcatch>
+        </cftry>
+    </cffunction>
+
 </cfcomponent>

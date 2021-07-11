@@ -1,0 +1,21 @@
+RECOMMENDED MATRIX FOR UAT
+
+Success
+------------------
+Users.new   1) Able to login with provided credentials
+Users.new   2) User Registration form validates data
+Users.new   3) Able to create a new account
+Users.new   4) Success message contains username
+
+Users.list  1) User can view a list of all registered Users
+Users.list  2) Datatable of registered users sorts by cols and filters by word
+Users.list  3) Each registered users has a working link to update their profile
+Users.list  4) link to edit Profile includes link to disable account and modify permissions
+
+Error (Controlled)
+-------------------
+Users.new   1) Login fails when credentials are not correct
+Users.new   2) New account fails when email is duplicated
+Users.new   3) Error message contains email address 
+
+   

@@ -1,42 +1,51 @@
-********** File Structure *********
+# Welcome to Davis & Co Database Platform
 
-Application.cfc
-----------------
-this.datasource : registered CF Datasource for SQL
-this.mappings.root : Path to root of hosted app (filesystem)
-Application.urlPath : Path to root of hosted app (webfacing)
+## Index
+* Features
+* File Structure
+* Database Structure
+* Application Structure
 
+## Features
+- Configurable 
+    - Change any Label 
+    - Enable any Validation 
+- User Management
+    - Required Sessions 
+    - Security Framework
+    - Personalized Menus
+- Simple Experience
+    - Asynch updates
+    - Catch errors
+    - Hub-like navigations
+    - Responsive template
 
-Includes (root/includes)
-----------------
-/labels.json ---> language/labels file
-/head.cfm   ---> customized html head from template 
+## File Structure
+- Application.cfc (app settings)
+- index.cfm (starting page)
+- "/assets" (media)
+- "/functions" (scripts)
+    - helper: general tools
+    - users: user related
+- "/includes" (building blocks)
+    - sections: /*.cfm
+    - scripts: /*.js,css & udfs
+    - daForm: CFM/JQuery Asynch handler
+    - custom: errors.json, labels.json
+    - config: settings.json, permits.json
+- "/template" (framework)
+    - start: /admin/dist/index.html
+- "/tests" (temp)
+- "/views" (nav pages /?view=)
 
+## Database Structure
+- _users : contains records of system accounts
+- _permits : gives specic permit to specific user 
+_ _errors : holds any catched exceptions
 
-Functions (root/functions)
-----------------
-/helper.cfc ---> general system functions
-
-
-Tests (root/tests)
-----------------
-/index.cfm --> lists all Unitary & Integration tests
-
-
-Template (root/template/)
-----------------
-/admin/dist/index.html ---> Sample Landing of Design Template
-
-
-
-********** DATA **********
-Errors importing from MDB to SQL
-1) Phones (last_cont, Follow_up IGNORED - Bad Datetime)
-2) ref_data (trimmed, data error(format/len) after X rows)
-3) ref_dataold (trimmed, data error(format/len) after X rows) 
-4) q_wip  (trimmed, data error(format/len) after X rows) 
-
-
-
-********* TIPS ***********
-?init : restarts the application
+## Application Structure
+- Application.datasource : registered CF Datasource for SQL
+- Application.urlPath : Path to root of hosted app (webfacing)
+- this.mappings.root : Path to root of hosted app (filesystem)
+- this.devMode : set to true to force Login and block all pages
+- ?init : restarts the application

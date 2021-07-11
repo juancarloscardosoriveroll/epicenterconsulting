@@ -1,0 +1,7 @@
+[
+    {"permitName" : "users.register.write", "describe" : "create new users"},
+    {"permitName" : "users.userlist.view", "describe" : "view list of all users"},
+    {"permitName" : "users.useredit.view", "describe" : "view other user's detail"},
+    {"permitName" : "users.userPermits.write", "describe" : "set permits for other users"}
+]
+

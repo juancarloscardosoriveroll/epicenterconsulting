@@ -1,0 +1,11 @@
+{
+    "E_1001" : "Unrecognized Catch Error was Logged",
+    "E_1002" : "Please login to try this action",
+    "E_1003" : "You don´t have permits to run this service",
+    "E_1004" : "You cannot modify your own settings",
+    "E_1" : "%userEmail is an Invalid Email",
+    "E_2" : "%userPhone is an Invalid Phone",
+    "E_3" : "Invalid Length for First or Lastnames",
+    "E_4" : "Invalid Length for Password",
+    "E_5" : "%userEmail is already registered"
+}
