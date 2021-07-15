@@ -62,4 +62,17 @@
         </cftry>
     </cffunction>
 
+    <cffunction name="checkToken" hint="Checks that a user token is valid for access">
+        <cfargument name="accessToken">
+
+        <cfquery dbtype="odbc" datasource="#application.datasource#" name="check">
+            select userid from _users where accessToken = <cfqueryparam value="#accessToken#">
+        </cfquery>
+        <cfif check.recordcount eq 1>
+            <cfreturn userid>
+        <cfelse>
+            <cfreturn 0>
+        </cfif>
+    </cffunction>
+
 </cfcomponent>

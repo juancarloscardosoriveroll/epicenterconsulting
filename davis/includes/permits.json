@@ -1,7 +1,6 @@
 [
-    {"permitName" : "users.register.write", "describe" : "create new users"},
-    {"permitName" : "users.userlist.view", "describe" : "view list of all users"},
-    {"permitName" : "users.useredit.view", "describe" : "view other user's detail"},
-    {"permitName" : "users.userPermits.write", "describe" : "set permits for other users"}
+    {"permitName" : "users.register", "describe" : "create new users"},
+    {"permitName" : "users.edit", "describe" : "update other user's profile"},
+    {"permitName" : "users.permits", "describe" : "set permits for other users"},
+    {"permitName" : "users.password", "describe" : "set password for other users"}
 ]
-

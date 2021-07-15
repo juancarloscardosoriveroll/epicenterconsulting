@@ -8,5 +8,7 @@
     "E_2" : "%userPhone is an Invalid Phone",
     "E_3" : "Invalid Length for First or Lastnames",
     "E_4" : "Invalid Length for Password",
-    "E_5" : "%userEmail is already registered"
+    "E_5" : "%userEmail is already registered",
+    "E_6" : "%userEmail is not registered",
+    "E_7" : "invalid password"
 }

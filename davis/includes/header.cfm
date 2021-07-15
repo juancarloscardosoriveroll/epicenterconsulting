@@ -181,7 +181,7 @@
                 <a class="dropdown-item" href="##"><i class="bx bx-lock-open font-size-16 align-middle me-1"></i>
                     Lock screen</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="##"><i
+                <a class="dropdown-item text-danger" href="#Application.urlPath#/?logout"><i
                         class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> Logout</a>
             </div>
         </div>

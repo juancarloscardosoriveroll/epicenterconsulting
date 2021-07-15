@@ -3,6 +3,17 @@
 <div class="row">
     <div class="col-12">
         <div class="card">
+            <div class="card-head mt-5">
+                <div class="d-print-none">
+                    <div class="float-end">
+                        <a href="#application.urlPath#/?view=register" class="btn btn-primary w-md waves-effect waves-light">
+                            <i class="fa fa-user-plus"> #Application.labels['userlist_addnewuser']# </i>
+                        </a>
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+
             <div class="card-body">
 
                 <h4 class="card-title">#Application.labels['userlist_header']#</h4>
@@ -13,11 +24,11 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>FirstName</th>
-                            <th>LastName</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>isActive</th>
+                            <th>#Application.labels['general_firstname']#</th>
+                            <th>#Application.labels['general_lastname']#</th>
+                            <th>#Application.labels['general_email']#</th>
+                            <th>#Application.labels['general_phone']#</th>
+                            <th>#Application.labels['general_isactive']#</th>
                         </tr>
                     </thead>
 
@@ -29,7 +40,19 @@
                                 <td>#trim(userlastname)#</td>
                                 <td>#trim(userEmail)#</td>
                                 <td>#trim(userPhone)#</td>
-                                <td><cfif userActive>YES<cfelse>NO</cfif></td>
+                                <td>
+                                    <!--- daToggle Function --->
+                                    <cfset randomID = createUUID()>
+                                    <div id="callback_#randomID#">
+                                        <a class="daToggle" href="##" data-callback="callback_#randomID#" data-action="#Application.urlPath#/includes/daForm.cfm?daCase=daToggle&dapermit=users.active&id=#userid#&field=userActive">
+                                            <cfif userActive>
+                                                <div class='alert alert-success' role='alert'>#Application.labels['useractive_yes']#</div>
+                                            <cfelse>
+                                                <div class='alert alert-danger' role='alert'>#Application.labels['useractive_no']#</div>                                                
+                                            </cfif>
+                                        </a>    
+                                    </div>
+                                </td>
                             </tr>
                         </cfloop>
                     </tbody>

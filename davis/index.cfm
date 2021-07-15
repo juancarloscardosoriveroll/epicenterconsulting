@@ -1,4 +1,4 @@
-<cfset session.userId = 2>
+<cfparam name="view" default="dashboard">
 
 <cfoutput>
 <!doctype html>

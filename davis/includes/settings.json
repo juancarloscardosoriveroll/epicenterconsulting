@@ -1,3 +1,4 @@
 {
-    "register_validatePhone" : false
+    "register_validatePhone" : false,
+    "initial_permits" : []
 }

@@ -34,24 +34,13 @@
                 </li>
 
                 <!--- Users --->
+                <li class="menu-title">Catalogs</li>
+
                 <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                    <a href="#Application.urlPath#/?view=userlist" class="">
                         <i class="#Application.labels['sidemenu_users_icon']#"></i>
                         <span>#Application.labels['sidemenu_users_group']#</span>
                     </a> 
-                    <!--- List ---> 
-                    <cfif application.helper.hasPermit(session.userId,'users.userList.view')>
-                        <ul class="sub-menu" aria-expanded="false">
-                            <li><a href="#Application.urlPath#/?view=userlist">#Application.labels['sidemenu_users_group_list']#</a></li>
-                        </ul>
-                    </cfif>
-
-                    <!--- Register --->
-                    <cfif application.helper.hasPermit(session.userId,'users.register.write')>
-                        <ul class="sub-menu" aria-expanded="false"> 
-                            <li><a href="#Application.urlPath#/?view=register">#Application.labels['sidemenu_users_group_register']#</a></li>
-                        </ul>
-                    </cfif>
                 </li>
 
 

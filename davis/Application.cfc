@@ -4,8 +4,6 @@ component
     this.name = "davis";
     this.mappings["/root"] = "C:\home\tutoro.me\wwwroot\davis"; 
 
-
-    this.devMode = true;
     THIS.ApplicationTimeout = CreateTimeSpan( 0, 1, 0, 0 );
     THIS.SessionManagement = true;
     THIS.SetClientCookies = true;
@@ -16,23 +14,19 @@ component
         //Reset Application if url.init
         if (isdefined("init")) {onApplicationStart();} 
 
+        if (isdefined("logout")) {Logout();}
+
         // Include Custom System Functions
         include '/root/includes/udfs.cfm';
 
+        if (isdefined("accessToken"))
+        {
+            checkID = Application.helper.checkToken(accessToken);
+            if (checkID > 0)
+                session.userid = checkID;
+        }
         // Default Navigation View
-        cfparam(name="view", default="dashboard");
-
-        // Important, force Login (when live)
-        if (Not(this.devMode)) { 
-            if (not(isdefined("client.userid"))) {
-                view = 'login';
-                include '/root/index.cfm';
-            }
-            else{ include TargetPage; }
-        }
-        // add anything else needed for dev under here}
-        else{ include TargetPage; 
-        }
+        include TargetPage; 
         return true;
     }
 
@@ -46,6 +40,12 @@ component
         Application.setup = Application.helper.getSetupFile();        
         Application.permits = Application.helper.getPermitFile();        
         return true;  
+    }
+
+    // Logout function
+    function Logout(){
+        if (structKeyExists(session,"userid"))
+            structDelete(session,"userid");
     }
 
 }
