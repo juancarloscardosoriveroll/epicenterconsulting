@@ -208,13 +208,13 @@
         </cftry>
     </cffunction>
 
-    <cffunction name="login" returntype="numeric" access="public" hint="simple login">
+    <cffunction name="login" returntype="string" access="public" hint="simple login">
         <cfargument name="userEmail" type="string" required="true">
         <cfargument name="userPass" type="string" required="true">
 
         <!--- Get Account from email --->
         <cfquery dbtype="odbc" datasource="#application.datasource#" name="check">
-            select userid from _users 
+            select userid, userpass from _users 
             where userEmail = <cfqueryparam value="#Arguments.userEmail#">
         </cfquery>
 

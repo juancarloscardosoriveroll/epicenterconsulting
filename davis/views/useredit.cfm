@@ -37,11 +37,7 @@
                     <!-- Tab panes -->
                     <div class="tab-content p-3 text-muted">
                         <div class="tab-pane active " id="profile" role="tabpanel">
-                            <cfif Application.helper.hasPermit(session.userid,"users.register")>
-                                <cfinclude template="/root/views/useredit_profile.cfm">
-                            <cfelse>
-                                <h3>#application.errors['E_1003']# <!--- No Permit ---></h3>
-                            </cfif>
+                            <cfinclude template="/root/views/useredit_profile.cfm">
                         </div>
                         <div class="tab-pane " id="permits" role="tabpanel">
                             <cfinclude template="/root/views/useredit_permits.cfm">

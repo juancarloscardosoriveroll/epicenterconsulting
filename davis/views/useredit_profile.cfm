@@ -1,6 +1,6 @@
 <!--- Variable to customize UX and disable if needed --->
 <cfset disableBtn = true>
-<cfif Application.helper.hasPermit(session.userid,"users.edit")>
+<cfif Application.helper.hasPermit(session.userid,"users.edit") OR (session.userid EQ url.userid)>
     <cfset disableBtn = false>
 </cfif>
 

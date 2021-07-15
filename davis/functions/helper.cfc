@@ -69,10 +69,23 @@
             select userid from _users where accessToken = <cfqueryparam value="#accessToken#">
         </cfquery>
         <cfif check.recordcount eq 1>
-            <cfreturn userid>
+            <cfreturn check.userid>
         <cfelse>
             <cfreturn 0>
         </cfif>
     </cffunction>
+
+    <cffunction name="getProfile" hint="Returns the basic user profile">
+        <cfargument name="userid">
+
+        <cfquery dbtype="odbc" datasource="#application.datasource#" name="profile">
+            select userfirstname, userlastname, useremail, userPhone 
+            from _users
+            where userid = <cfqueryparam value="#arguments.userid#">
+        </cfquery>
+
+        <cfreturn profile>
+    </cffunction>
+
 
 </cfcomponent>

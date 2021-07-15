@@ -1,4 +1,17 @@
+<!--- Login when AccessToken is provided --->
+<cfif isdefined("accessToken")>
+    <cfset checkID = Application.helper.checkToken(accessToken)>
+    <cfif checkID GT 0><cfset session.userID = checkID></cfif>
+</cfif>
+
+<!--- Get User Profile basic Information --->
+<cfif isdefined("session.userid")>
+    <cfset user = Application.helper.getProfile(session.userid)>
+</cfif>
+
+<!--- Define Initial View Parameters --->
 <cfparam name="view" default="dashboard">
+<cfif not(isdefined("session.userID"))><cfset view="login"></cfif>
 
 <cfoutput>
 <!doctype html>
@@ -47,7 +60,6 @@
 
                         <!--- Include Navigation Content --->
                         <cfinclude template="/root/views/#view#.cfm">
-
 
                     </div>
                     <!-- End Page-content -->

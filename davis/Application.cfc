@@ -14,17 +14,11 @@ component
         //Reset Application if url.init
         if (isdefined("init")) {onApplicationStart();} 
 
-        if (isdefined("logout")) {Logout();}
+        if (isdefined("url.logout")) {Logout();}
 
         // Include Custom System Functions
         include '/root/includes/udfs.cfm';
 
-        if (isdefined("accessToken"))
-        {
-            checkID = Application.helper.checkToken(accessToken);
-            if (checkID > 0)
-                session.userid = checkID;
-        }
         // Default Navigation View
         include TargetPage; 
         return true;
@@ -45,7 +39,10 @@ component
     // Logout function
     function Logout(){
         if (structKeyExists(session,"userid"))
+        {
             structDelete(session,"userid");
+        }
+        location(Application.urlPath,"false");
     }
 
 }

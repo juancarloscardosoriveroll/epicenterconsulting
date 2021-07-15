@@ -76,5 +76,11 @@
     "general_email" : "Email",
     "general_phone" : "Phone",
     "general_isactive" : "Active",
-    "login_welcome" : "Welcome back!"    
+    "login_welcome" : "Welcome back!",
+    "login_email_label" : "Email",
+    "login_email_help" : "enter a unique valid email for the user",
+    "login_password_label" : "Password",
+    "login_password_help" : "enter the new user's login password",
+    "login_submit" : "Login",
+    "topmenu_profile" : "Profile"
 }

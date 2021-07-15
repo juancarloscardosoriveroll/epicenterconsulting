@@ -51,7 +51,7 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
         <cfif resultCode GT 0>
             <cfset Result["success"] = true>
             <cfset Result["message"] = Application.labels["login_welcome"]>
-            <cfset Result["view"] = "redirect;" & Application.urlPath & "/?view=dashboard&accessToken=" + resultCode>
+            <cfset Result["view"] = "redirect;" & Application.urlPath & "/?view=dashboard&accessToken=#resultCode#">
         </cfif>
 
     </cfcase>

@@ -7,24 +7,25 @@
                     <form class="custom-validation daForm" id="daForm3" action="#Application.urlPath#/includes/daForm.cfm?daCase=login">
 
                         <div class="mb-3">
-                            <label class="form-label">#Application.labels["register_email_label"]#</label>
+                            <label class="form-label">#Application.labels["login_email_label"]#</label> 
                             <div>
                                 <input name="userEmail" id="userEmail" type="email" class="form-control" required parsley-type="email"
-                                    placeholder="#Application.labels['register_email_help']#" />
+                                    placeholder="#Application.labels['login_email_help']#" />
                             </div>
                         </div>
     
                         <div class="mb-3">
-                            <label class="form-label">#Application.labels["register_password_label"]#</label>
+                            <label class="form-label">#Application.labels["login_password_label"]#</label>
                             <div>
                                 <input name="userPass" id="userPass" type="password" class="form-control"
-                                    required placeholder="#Application.labels['register_password_help']#" />
+                                    required placeholder="#Application.labels['login_password_help']#" />
                             </div>
                         </div>
     
                         <div class="mt-3">
-                            <button class="btn btn-primary w-100 waves-effect waves-light" type="submit">Log
-                                In</button>
+                            <button class="btn btn-primary w-100 waves-effect waves-light" type="submit">
+                                #Application.labels['login_submit']#   
+                            </button>
                         </div>
 
                         <!---
