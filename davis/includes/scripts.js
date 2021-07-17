@@ -69,6 +69,55 @@ $(".daForm").on("submit", function(event){
 });
 
 
+$(".stateToCounty").on("change",function(event){
+    /* Convert from URL Data Attr to Dynamic Form so to use daForm logic */
+    var myState = $(this).val();
+    var myTarget = $(this).data("target");
+    var myAction = $(this).data("action") + "&state=" + myState; 
+
+    let dropdown = $("#" + myTarget);
+    dropdown.empty();
+    dropdown.append('<option selected="true" disabled>Choose County</option>'); 
+    dropdown.prop('selectedIndex', 0);
+
+    $.getJSON(myAction, function (data) {
+        $.each(data, function (key, entry) {
+          dropdown.append($('<option></option>').attr('value', myState + ',' + entry.value).text(entry.name));
+        })
+      });
+});
+
+$(".countyToCity").on("change",function(event){
+    /* Convert from URL Data Attr to Dynamic Form so to use daForm logic */  
+    var tempval = $(this).val();
+    var myState = tempval.split(",")[0];     
+    var myCounty = tempval.split(",")[1];     
+    var myTarget = $(this).data("target");
+    var myAction = $(this).data("action") + "&state=" + myState + "&county=" + myCounty; 
+
+    let dropdown = $("#" + myTarget);
+    dropdown.empty();
+    dropdown.append('<option selected="true" disabled>Choose City</option>');
+    dropdown.prop('selectedIndex', 0);
+
+    $.getJSON(myAction, function (data) {
+        $.each(data, function (key, entry) {
+          dropdown.append($('<option></option>').attr('value', entry.value).text(entry.name));
+        })
+      });
+});
+
+
+$(".updateZipCode").on("click",function(event){
+    let zipcode = $("#city").val();    
+    $("#zipcode").val(zipcode);
+    $(".zipcode-modal").modal('hide');
+
+});
+
+
 $(document).ready(function() {
     $("#datatable").DataTable()
 });
+
+

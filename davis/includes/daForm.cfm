@@ -150,6 +150,29 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
 
     </cfcase>
 
+    <cfcase value="itemNew">
+        <cfif Not(isdefined("session.userid"))>
+            <cfset resultCode = -1002>  <!--- Needs to Login --->
+        <cfelseif Not(Application.helper.hasPermit(session.userid,"catalogs.itemnew"))>
+            <cfset resultCode = -1003> <!--- Doesn´t have Permission --->
+        <cfelse>
+            <!--- Run Component to Create New Account --->
+            <cfinvoke component="/root/functions/catalogs" method="itemnew" returnvariable="resultCode"
+                formFields="#form#" catOwner="#session.userid#">
+        </cfif>
+
+        <cfif resultCode GT 0>
+            <cfset Result["success"] = true>
+            <cfset Result["message"] = Application.labels["itemnew_success"]>
+            <cfset Result["view"] = "redirect;" & Application.urlPath & "/?view=catalogs&cattype=" & form.cattype>
+            <cfset form["catId"] = resultCode> <!--- add this to form to customize msg --->
+        </cfif>
+
+
+
+    </cfcase>
+
+
 </cfswitch>
 
 <!------------------------------------ RETURN ------------------------------------->
@@ -157,6 +180,11 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
     <!--- Replace with corresponding ErrorMessage --->
     <cfset Result["message"] = evaluate('Application.errors.E_#abs(resultCode)#')>
 </cfif>
+<cfif resultCode eq -1002>
+    <!--- If Needs to login then redirect --->
+    <cfset Result["view"] = "redirect;" & Application.urlPath & "/?view=login">
+</cfif>
+
 <!--- Wow factor, replace all string pointers with value of Variables --->
 <cfset Result["message"] = Application.helper.replaceVars(result.message,form)>
 <cfoutput>#serializeJSON(Result)#</cfoutput>

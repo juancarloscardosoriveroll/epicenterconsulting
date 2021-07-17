@@ -82,5 +82,22 @@
     "login_password_label" : "Password",
     "login_password_help" : "enter the new user's login password",
     "login_submit" : "Login",
-    "topmenu_profile" : "Profile"
+    "topmenu_profile" : "Profile",
+    "catalogs_title" : "Catalogs",
+    "catalogs_subtitle" : "Existing items",
+    "catalogs_header" : "%catType",
+    "catalogs_intro" : "Select the Item you wish to update",
+    "catalogs_addnewrecord" : "Add New Item",
+    "itemnew_title" : "New Item",
+    "itemnew_subtitle" : "Insert a new Item",
+    "itemnew_header" : "%catType",
+    "itemnew_intro" : "Please complete the required information",
+    "itemnew_catitem" : "Item",
+    "itemnew_catitem_help" : "Input the item name or value",
+    "catalogs_general_compName" : "Company name",
+    "catalogs_general_compName_help" : "Input the commercial name",
+    "itemnew_success" : "%catitem was succesfully registered with catid %catid",
+    "itemedit_title" : "Edit Item",
+    "itemedit_subtitle" : "Update Item"
 }
+ 

@@ -43,6 +43,19 @@
                     </a> 
                 </li>
 
+                <!--- Dynamic --->
+                <cfloop from="1" to="#arraylen(Application.setup.catalogs)#" index="CT">
+                    <cfset TC = Application.setup.catalogs[CT]>
+
+                    <li>
+                        <a href="#Application.urlPath#/?view=catalogs&catType=#trim(TC.catType)#" class="">
+                            <i class="#Application.labels['sidemenu_users_icon']#"></i>
+                            <span>#TC.catType#</span>
+                        </a> 
+                    </li>
+    
+
+                </cfloop>
 
             </ul>
         </div>

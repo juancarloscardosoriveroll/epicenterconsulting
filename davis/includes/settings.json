@@ -1,4 +1,26 @@
 {
     "register_validatePhone" : false,
-    "initial_permits" : []
+    "initial_permits" : [],
+    "catalogs" : 
+        [
+            {
+                "catType" : "boatTypes",
+                "addFields" : []
+            },
+            {
+                "catType" : "general",
+                "addFields" : [
+                    {"fieldName" : "compName",  "type" : "text",    "required" : true,  "maxlength" : 50,   "minlength" : 5  },
+                    {"fieldName" : "street",    "type" : "text",    "required" : false, "maxlength" : 50,   "minlength" : 5  },
+                    {"fieldName" : "zipcode",   "type" : "zipcode", "required" : true,  "maxlength" : 5,    "minlength" : 5  }, 
+                    {"fieldName" : "contactFn", "type" : "text",    "required" : false, "maxlength" : 25,   "minlength" : 5  },
+                    {"fieldName" : "contactLn", "type" : "text",    "required" : false, "maxlength" : 25,   "minlength" : 5  },
+                    {"fieldName" : "phone",     "type" : "text",    "required" : false, "maxlength" : 25,   "minlength" : 5  },
+                    {"fieldName" : "phone800",  "type" : "text",    "required" : false, "maxlength" : 25,   "minlength" : 5  },
+                    {"fieldName" : "phoneFax",  "type" : "text",    "required" : false, "maxlength" : 25,   "minlength" : 5  },
+                    {"fieldName" : "notes",     "type" : "area",    "required" : true,  "maxlength" : 1000, "minlength" : 5  },
+                    {"fieldName" : "artNo",     "type" : "text",    "required" : false, "maxlength" : 25,   "minlength" : 5  }
+                ]
+            }
+        ]                
 }
