@@ -10,5 +10,6 @@
     "E_4" : "Invalid Length for Password",
     "E_5" : "%userEmail is already registered",
     "E_6" : "%userEmail is not registered",
-    "E_7" : "invalid password"
+    "E_7" : "invalid password",
+    "E_8" : "%itemName already exists in Catalog"
 }

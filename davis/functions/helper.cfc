@@ -24,7 +24,7 @@
         <cfargument name="permitName" type="string" hint="Name of registered asset">
         
         <cfquery dbtype="odbc" datasource="#application.datasource#" name="result"> 
-            select count(permitId) as total from _permits 
+            select count(permitId) as total from _users_permits 
             where userid = <cfqueryparam value="#arguments.userid#">
               and rtrim(permitName) = <cfqueryparam value="#arguments.permitName#">
         </cfquery>

@@ -64,7 +64,7 @@
             <cfset myPermits = Application.setup["initial_permits"]>
             <cfloop from="1" to="#arraylen(myPermits)#" index="P">
                 <cfquery dbtype="odbc" datasource="#application.datasource#" name="addPermit">
-                    insert into _permits (
+                    insert into _users_permits (
                          permitName
                         ,userid
                     )
@@ -104,7 +104,7 @@
         <cfargument name="userID" required="true">
         
         <cfquery dbtype="odbc" datasource="#application.datasource#" name="permits">
-            select rtrim(permitName) as PN from _permits
+            select rtrim(permitName) as PN from _users_permits
             where userid = <cfqueryparam value="#arguments.userid#">
         </cfquery>
 
@@ -117,12 +117,12 @@
 
         <cftry>
             <cfquery dbtype="odbc" datasource="#application.datasource#" name="borra">
-                delete from _permits where userid = <cfqueryparam value="#arguments.userid#">
+                delete from _users_permits where userid = <cfqueryparam value="#arguments.userid#">
             </cfquery>
 
             <cfloop list="#arguments.permitNames#" index="PN">
                 <cfquery dbtype="odbc" datasource="#application.datasource#" name="inserta">
-                    insert into _permits (userId,permitName)
+                    insert into _users_permits (userId,permitName)
                     values (<cfqueryparam value="#arguments.userId#">,<cfqueryparam value="#PN#">)
                 </cfquery>
             </cfloop>

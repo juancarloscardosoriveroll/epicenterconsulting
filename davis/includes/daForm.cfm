@@ -136,7 +136,7 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
 
             <!--- RETURNS based on function, try to Use resultCode as callback value --->
             <cfswitch expression="#methodName#">
-                <cfcase value="usersactive">
+                <cfcase value="usersactive,catalogsactive">
                     <cfset Result["success"] = true>
                     <cfset Result["view"] = "stay;self">
                     <cfset Result["message"] = "">
@@ -158,7 +158,10 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
         <cfelse>
             <!--- Run Component to Create New Account --->
             <cfinvoke component="/root/functions/catalogs" method="itemnew" returnvariable="resultCode"
-                formFields="#form#" catOwner="#session.userid#">
+                itemName="#form.itemName#" 
+                itemDesc="#form.itemDesc#" 
+                catType="#form.catType#"
+                ownerid="#session.userID#">
         </cfif>
 
         <cfif resultCode GT 0>
@@ -166,12 +169,33 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
             <cfset Result["message"] = Application.labels["itemnew_success"]>
             <cfset Result["view"] = "redirect;" & Application.urlPath & "/?view=catalogs&cattype=" & form.cattype>
             <cfset form["catId"] = resultCode> <!--- add this to form to customize msg --->
+        <cfelse>
+            <cfset form["itemName"] = listfirst(form.itemName,' ')> <!--- to improve error msg --->            
         </cfif>
-
-
 
     </cfcase>
 
+    <cfcase value="itemEdit">
+        <cfif Not(isdefined("session.userid"))>
+            <cfset resultCode = -1002>  <!--- Needs to Login --->
+        <cfelseif (session.userid neq form.ownerid) AND (Not(Application.helper.hasPermit(session.userid,"catalogs.itemedit")))>
+            <cfset resultCode = -1003> <!--- Doesn´t have Permission --->
+        <cfelse>
+            <!--- Run Component to Create New Account --->
+            <cfinvoke component="/root/functions/catalogs" method="itemEdit" returnvariable="resultCode"
+                itemName="#form.itemName#" 
+                itemDesc="#form.itemDesc#" 
+                itemId="#form.itemId#"
+                catType="#form.catType#">
+        </cfif>
+
+        <cfif resultCode GT 0>
+            <cfset Result["success"] = true>
+            <cfset Result["message"] = Application.labels["itemedit_success"]>
+            <cfset Result["view"] = "redirect;" & Application.urlPath & "/?view=catalogs&cattype=" & form.cattype>
+            <cfset form["catId"] = resultCode> <!--- add this to form to customize msg --->
+        </cfif>
+    </cfcase>
 
 </cfswitch>
 

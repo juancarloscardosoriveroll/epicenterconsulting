@@ -1,73 +1,17 @@
 {
     "register_validatePhone" : false,
     "initial_permits" : [],
-    "catalogs" : 
-        [
-            {
-                "catType" : { "display" : "Boat Types", "id" : "typeBoat"},
-                "addFields" : [
-                    {"fieldName" : "id",         "type" : "idkey"},
-                    {"fieldName" : "describe",   "type" : "area",    "required" : false, "minlength" : 5,   "maxlength" : 500}
-                ]
-            },
-            {
-                "catType" : { "display" : "Salvage Types", "id" : "typeSal"},
-                "addFields" : [
-                    {"fieldName" : "id",         "type" : "idkey"},
-                    {"fieldName" : "describe",   "type" : "area",    "required" : false, "minlength" : 5,   "maxlength" : 500}
-                ]
-            },
-            {
-                "catType" : { "display" : "Reference Types", "id" : "typeRef"},
-                "addFields" : [
-                    {"fieldName" : "id",         "type" : "idkey"},
-                    {"fieldName" : "describe",   "type" : "area",   "required" : false, "minlength" : 5,   "maxlength" : 500}
-                ]
-            },
-            {
-                "catType" : { "display" : "Loss Types", "id" : "typeLoss"},
-                "addFields" : [
-                    {"fieldName" : "id",         "type" : "idkey"},
-                    {"fieldName" : "describe",   "type" : "area",    "required" : false, "minlength" : 5,   "maxlength" : 500}
-                ]
-            },
-            {
-                "catType" : { "display" : "Claim Types", "id" : "typeClaim"},
-                "addFields" : [
-                    {"fieldName" : "id",         "type" : "idkey"},
-                    {"fieldName" : "describe",   "type" : "area",    "required" : false, "minlength" : 5,   "maxlength" : 500}
-                ]
-            },
-            {
-                "catType" : { "display" : "Billing Types", "id" : "typeBill"},
-                "addFields" : [
-                    {"fieldName" : "id",         "type" : "idkey"},
-                    {"fieldName" : "describe",   "type" : "area",    "required" : false, "minlength" : 5,   "maxlength" : 500}
-                ]
-            },
-
-            {
-                "catType" : { "display" : "Payment Types", "id" : "typePay"},
-                "addFields" : [
-                    {"fieldName" : "id",         "type" : "idkey"},
-                    {"fieldName" : "describe",   "type" : "area",    "required" : false, "minlength" : 5,   "maxlength" : 500}
-                ]
-            },
-
-            {
-                "catType" : { "display" : "Contacts", "id" : "contacts"},
-                "addFields" : [
-                    {"fieldName" : "id",        "type" : "idkey"},
-                    {"fieldName" : "compName",  "type" : "text",    "required" : true,  "maxlength" : 50,   "minlength" : 5  },
-                    {"fieldName" : "street",    "type" : "text",    "required" : false, "maxlength" : 50,   "minlength" : 5  },
-                    {"fieldName" : "zipcode",   "type" : "zipcode", "required" : true,  "maxlength" : 5,    "minlength" : 5  }, 
-                    {"fieldName" : "contactFn", "type" : "text",    "required" : false, "maxlength" : 25,   "minlength" : 5  },
-                    {"fieldName" : "contactLn", "type" : "text",    "required" : false, "maxlength" : 25,   "minlength" : 5  },
-                    {"fieldName" : "phone",     "type" : "text",    "required" : false, "maxlength" : 25,   "minlength" : 5  },
-                    {"fieldName" : "phone800",  "type" : "text",    "required" : false, "maxlength" : 25,   "minlength" : 5  },
-                    {"fieldName" : "email",     "type" : "email",   "required" : false, "maxlength" : 25,  "minlength" : 5  },
-                    {"fieldName" : "notes",     "type" : "area",    "required" : true,  "maxlength" : 1000, "minlength" : 5  }
-                ]
-            }
-        ]                
+    "duplicate_skip_words" : ["bank","salvage","1st"],
+    "catalogs" : [
+        {"display" : "Accident Types", "id" : "accidentTypes"},
+        {"display" : "Billing Types", "id" : "billingTypes"},
+        {"display" : "Boat Types", "id" : "boatTypes"},
+        {"display" : "Claim Types", "id" : "claimTypes"},
+        {"display" : "Fire Claim Types", "id" : "fireClaimTypes"},
+        {"display" : "Loss Types", "id" : "lossTypes"},
+        {"display" : "Payment Types", "id" : "paymentTypes"},
+        {"display" : "Reference Types", "id" : "referenceTypes"},
+        {"display" : "Salvage Types", "id" : "salvageTypes"},
+        {"display" : "Source Types", "id" : "sourceTypes"}
+    ]              
 }

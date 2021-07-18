@@ -10,105 +10,76 @@
     
                     <form class="custom-validation daForm" id="daForm" action="#Application.urlPath#/includes/daForm.cfm?daCase=itemnew">
                         <input type="hidden" name="catType" value="#url.catType#">
+
+                        <!--- NAME --->
                         <div class="mb-3">
-                            <label class="form-label">#Application.labels["itemnew_catitem"]# *</label>
+                            <label class="form-label">
+                                #Application.labels["catalogs_" & url.catType & "_name"]#
+                            </label>
                             <div>
-                                <input name="catItem" id="catItem"  type="text" class="form-control"
-                                    required placeholder="#Application.labels['itemnew_catitem_help']#" />
+                                <input name="itemName" 
+                                type="text" 
+                            maxlength="50"
+                            minlength="5"
+                                class="form-control"
+                                required 
+                                placeholder="#Application.labels['catalogs_' & url.catType & '_name_help']#" 
+                                />
                             </div>
                         </div>
 
-                        <!--- LOOP STRUCTURE TO FIND FIELD SETTINGS  --->
-                        <cfloop from="1" to="#arraylen(application.setup.catalogs)#" index="CAT">
-                            <cfset THISCAT = application.setup.catalogs[CAT]>
-                            <cfif THISCAT.catType.id eq url.catType>
-                                <cfloop from="1" to="#arraylen(THISCAT.addFields)#" index="AF">
-                                    <cfset THISFIELD = THISCAT.addFields[AF]>
 
-                                    <!--- CUSTOM FIELD HERE --->
-                                    <div class="mb-3">
-                                        <label class="form-label">
-                                            <!--- dynamic label from labels.json --->
-                                            <cfset dynlabel = "Application.labels.catalogs_#url.catType#_#thisField.fieldName#">
-                                            <cfset dynhelp = "Application.labels.catalogs_#url.catType#_#thisField.fieldName#_help">
+                        <!--- DESCRIPTION --->
+                        <div class="mb-3">
+                            <label class="form-label">
+                                #Application.labels["catalogs_" & url.catType & "_describe"]#
+                            </label>
+                            <div>
+                                <textarea name="itemDesc" 
+                                minlength="5"
+                                maxlength="500"
+                                    class="form-control"
+                                    rows="5"
+                                    placeholder="#Application.labels['catalogs_' & url.catType & '_describe_help']#"></textarea>                                                    
+                            </div>
+                        </div>
 
-                                            <cfif isdefined("#dynlabel#")>
-                                                #evaluate(dynlabel)#
-                                            <cfelse>
-                                                #listlast(dynlabel,'.')#
-                                            </cfif>
-                                            <cfif isdefined("thisField.required") and thisField.required>*</cfif>
-                                        </label>
-                                        <div>
-                                            <cfswitch expression="#thisField.type#">
-                                                <cfcase value="area">
-                                                    <textarea name="#thisField.fieldName#" 
-                                                         maxlength="#thisField.maxlength#"
-                                                         minlength="#thisField.minlength#"
-                                                             class="form-control"
-                                                             rows="5"
-                                                    <cfif thisField.required> required </cfif>
-                                                    placeholder="#evaluate(dynhelp)#"></textarea>                                                    
-                                                </cfcase>
+                    <!---
 
-                                                <cfcase value="zipcode">
+                        <cfcase value="zipcode">
 
-                                                    <div class="input-group mb-3">
+                            <div class="input-group mb-3">
 
 
-                                                        <div class="input-group-append">
-                                                            <span class="input-group-text" id="basic-addon2">
-  
-                                                              <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
-                                                              data-bs-toggle="modal" data-bs-target=".zipcode-modal">Find it</button>
-      
-                                                            </span>
-                                                          </div>                                                        
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon2">
 
-                                                        <input name="#thisField.fieldName#"
-                                                            id="zipcode" 
-                                                            type="number" 
-                                                        maxlength="5"
-                                                        minlength="5"
-                                                            class="form-control-sm"
-                                                            style="width: 100px;"
-                                                    <cfif thisField.required> required </cfif>
-                                                    placeholder="#evaluate(dynhelp)#"
-                                                    />
-    
+                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
+                                    data-bs-toggle="modal" data-bs-target=".zipcode-modal">Find it</button>
 
-                                                      </div>
+                                    </span>
+                                </div>                                                        
+
+                                <input name="#thisField.fieldName#"
+                                    id="zipcode" 
+                                    type="number" 
+                                maxlength="5"
+                                minlength="5"
+                                    class="form-control-sm"
+                                    style="width: 100px;"
+                            <cfif thisField.required> required </cfif>
+                            placeholder="#evaluate(dynhelp)#"
+                            />
 
 
-        
-                                                </cfcase>
+                            </div>
 
-                                                <cfcase value="idkey">
-                                                    <input type="text" 
-                                                        disabled value="#evaluate(dynhelp)#"
-                                                        class="form-control">
-                                                    <!--- no logic needed, key is inserted by backend service --->
-                                                </cfcase>
 
-                                                <cfdefaultcase>
-                                                        <input name="#thisField.fieldName#" 
-                                                            type="#thisField.type#" 
-                                                        maxlength="#thisField.maxlength#"
-                                                        minlength="#thisField.minlength#"
-                                                            class="form-control"
-                                                            <cfif thisField.required> required </cfif>
-                                                            placeholder="#evaluate(dynhelp)#" 
-                                                            />
-                                                </cfdefaultcase>
-                                            </cfswitch>
-                                        </div>
-                                    </div>
 
-                                </cfloop>
-                            </cfif>
-                        </cfloop>
-                        
-    
+                        </cfcase>
+
+                    --->
+
                         <div>
                             <div>
                                 <button type="submit" class="btn btn-primary waves-effect waves-light me-1">

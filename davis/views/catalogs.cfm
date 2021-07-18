@@ -30,22 +30,34 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Item</th>
-                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Owner</th>
                                 <th>Status</th>
-                                <th>Detail</th>
                             </tr>
                         </thead>
                         <tbody>
                             <cfloop query="items">
                             <tr>
-                                <td>#catID#</td>
-                                <td><a href="#Application.urlPath#/?view=itemEdit&cattype=#trim(catType)#&catid=#catid#">#catItem#</a></td>
-                                <td>#dateformat(catdate,'mmm-yy')#</td>
-                                <td>#booleanFormat(catActive)#</td>
-                                <td>&nbsp;</td>
+                                <td>#itemId#</td>
+                                <td><a href="#Application.urlPath#/?view=itemEdit&cattype=#trim(catType)#&itemId=#itemId#">#itemName#</a></td>
+                                <td>#itemDesc#</td>
+                                <td>#userFirstname# #userLastname#</td>
+                                <td>
+                                    <!--- daToggle Function --->
+                                    <cfset randomID = createUUID()>
+                                    <div id="callback_#randomID#">
+                                        <a class="daToggle" href="##" data-callback="callback_#randomID#" data-action="#Application.urlPath#/includes/daForm.cfm?daCase=daToggle&dapermit=catalogs.active&id=#itemid#&field=catactive">
+                                            <cfif catActive>
+                                                <div class='alert alert-success' role='alert'>#Application.labels['catactive_yes']#</div>
+                                            <cfelse>
+                                                <div class='alert alert-danger' role='alert'>#Application.labels['catactive_no']#</div>                                                
+                                            </cfif>
+                                        </a>    
+                                    </div>
+                                </td>
                             </tr>                            
-                            </cfloop>
+                            </cfloop> 
 
                         </tbody>
                     </table>
@@ -54,5 +66,5 @@
         </div>
     </div>
 </div>    
-</cfoutput>
-                
+</cfoutput>     
+                      

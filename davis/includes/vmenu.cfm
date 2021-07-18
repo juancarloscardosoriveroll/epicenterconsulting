@@ -31,28 +31,37 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="index.cfm">#Application.labels['sidemenu_home_group_dashboard']#</a></li>
                     </ul>
-                </li>
 
+                    <!--- Contacts --->
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="#Application.urlPath#/?view=contactlist">#Application.labels['sidemenu_contacts_group']#</a></li>
+                    </ul>
 
-
-                <!---Catalogs --->
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="#Application.labels['sidemenu_home_icon']#"></i>
-                        <span>Catalogs</span>
-                    </a>
                     <!--- Users --->
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="#Application.urlPath#/?view=userlist">#Application.labels['sidemenu_users_group']#</a></li>
                     </ul>
+
+
+                </li>
+
+
+                
+
+                <!---Catalogs --->
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="#Application.labels['sidemenu_catalogs_icon']#"></i>
+                        <span>#Application.labels['sidemenu_catalogs_group']#</span>
+                    </a>
 
                     <!--- Dynamic --->
                     <cfloop from="1" to="#arraylen(Application.setup.catalogs)#" index="CT">
                         <cfset TC = Application.setup.catalogs[CT]>
                         <ul class="sub-menu" aria-expanded="false">
                             <li>
-                                <a href="#Application.urlPath#/?view=catalogs&catType=#trim(TC.catType.id)#">
-                                    <span>#TC.catType.display#</span>
+                                <a href="#Application.urlPath#/?view=catalogs&catType=#trim(TC.id)#">
+                                    <span>#TC.display#</span>
                                 </a> 
                             </li>
                         </ul>
