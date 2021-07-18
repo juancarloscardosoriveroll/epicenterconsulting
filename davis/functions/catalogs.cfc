@@ -4,7 +4,8 @@
         <cfargument name="itemId" required="false" default="0">
 
         <cfquery dbtype="odbc" datasource="#application.datasource#" name="rows">
-            select c.itemid, c.itemname, c.itemdesc, c.catactive, c.catdate, u.userfirstname, u.userlastname 
+            select c.itemid, c.itemname, c.itemdesc, c.catactive, c.ownerid, c.cattype, c.catdate, 
+                    u.userfirstname, u.userlastname 
             from _catalogs c, _users u
             where catType = <cfqueryparam value="#arguments.catType#">
             <cfif arguments.itemID gt 0>
