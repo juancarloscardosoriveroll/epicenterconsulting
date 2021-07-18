@@ -33,15 +33,33 @@
                     </ul>
                 </li>
 
-                <!--- Users --->
-                <li class="menu-title">Catalogs</li>
 
+
+                <!---Catalogs --->
                 <li>
-                    <a href="#Application.urlPath#/?view=userlist" class="">
-                        <i class="#Application.labels['sidemenu_users_icon']#"></i>
-                        <span>#Application.labels['sidemenu_users_group']#</span>
-                    </a> 
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="#Application.labels['sidemenu_home_icon']#"></i>
+                        <span>Catalogs</span>
+                    </a>
+                    <!--- Users --->
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="#Application.urlPath#/?view=userlist">#Application.labels['sidemenu_users_group']#</a></li>
+                    </ul>
+
+                    <!--- Dynamic --->
+                    <cfloop from="1" to="#arraylen(Application.setup.catalogs)#" index="CT">
+                        <cfset TC = Application.setup.catalogs[CT]>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li>
+                                <a href="#Application.urlPath#/?view=catalogs&catType=#trim(TC.catType.id)#">
+                                    <span>#TC.catType.display#</span>
+                                </a> 
+                            </li>
+                        </ul>
+                    </cfloop>
                 </li>
+
+                <!---
 
                 <!--- Dynamic --->
                 <cfloop from="1" to="#arraylen(Application.setup.catalogs)#" index="CT">
@@ -53,9 +71,8 @@
                             <span>#TC.catType#</span>
                         </a> 
                     </li>
-    
-
                 </cfloop>
+                --->
 
             </ul>
         </div>

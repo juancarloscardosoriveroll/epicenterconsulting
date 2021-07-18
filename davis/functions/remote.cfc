@@ -15,18 +15,10 @@
 
     <cffunction name="getStates" access="remote" hint="returns a list of states" returnformat="plain">
 
-        <cfquery dbtype="odbc" datasource="#application.datasource#" name="data">
-            select distinct state from _zipcodes order by state asc
-        </cfquery>
-        <cfset result = arraynew(1)>
-        <cfloop query="data">
-            <cfset temp = structnew()>
-            <cfset temp["value"] = state>
-            <cfset temp["name"] = state>
-            <cfset arrayappend(result,temp)>
-        </cfloop>
+        <cffile action="read" file="#expandpath('/root/assets/states.json')#"
+                variable="mystates">
 
-        <cfreturn serializeJSON(result)>
+        <cfreturn mystates>
     </cffunction>
 
 

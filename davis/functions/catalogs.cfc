@@ -75,7 +75,7 @@
         <!--- Insert Complimentary Info based on Field Layout --->
         <cfloop from="1" to="#arraylen(application.setup.catalogs)#" index="CAT">
             <cfset THISCAT = application.setup.catalogs[CAT]>
-            <cfif THISCAT.catType eq arguments.formfields.catType>
+            <cfif THISCAT.catType.id eq arguments.formfields.catType>
                 <cfloop from="1" to="#arraylen(THISCAT.addFields)#" index="AF">
                     <cfset THISFIELD = THISCAT.addFields[AF]>
                     

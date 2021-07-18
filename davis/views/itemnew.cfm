@@ -4,9 +4,9 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">
-                        <a href="#application.urlPath#/?view=catalogs&catType=#url.catType#"><i class="fas fa-arrow-left"></i></a>&nbsp;                        
-                        #replacenocase(Application.labels['itemnew_header'],'%catType',url.catType,'ALL')#</h4>
-                    <p class="card-title-desc">#Application.labels["itemnew_intro"]#</p>
+                        <a href="#application.urlPath#/?view=catalogs&catType=#url.catType#"><i class="fas fa-arrow-left"></i>&nbsp;                        
+                        #replacenocase(Application.labels['itemnew_header'],'%catType',url.catType,'ALL')#</a></h4>
+                    <p class="card-title-desc">#Application.labels["itemnew_intro"]#</p> 
     
                     <form class="custom-validation daForm" id="daForm" action="#Application.urlPath#/includes/daForm.cfm?daCase=itemnew">
                         <input type="hidden" name="catType" value="#url.catType#">
@@ -21,7 +21,7 @@
                         <!--- LOOP STRUCTURE TO FIND FIELD SETTINGS  --->
                         <cfloop from="1" to="#arraylen(application.setup.catalogs)#" index="CAT">
                             <cfset THISCAT = application.setup.catalogs[CAT]>
-                            <cfif THISCAT.catType eq url.catType>
+                            <cfif THISCAT.catType.id eq url.catType>
                                 <cfloop from="1" to="#arraylen(THISCAT.addFields)#" index="AF">
                                     <cfset THISFIELD = THISCAT.addFields[AF]>
 
@@ -37,8 +37,7 @@
                                             <cfelse>
                                                 #listlast(dynlabel,'.')#
                                             </cfif>
-                                            <cfif thisField.required>*</cfif>
-
+                                            <cfif isdefined("thisField.required") and thisField.required>*</cfif>
                                         </label>
                                         <div>
                                             <cfswitch expression="#thisField.type#">
@@ -49,39 +48,47 @@
                                                              class="form-control"
                                                              rows="5"
                                                     <cfif thisField.required> required </cfif>
-                                                    <cfif isdefined('#dynhelp#')> placeholder="#evaluate(dynhelp)#" </cfif>></textarea>                                                    
+                                                    placeholder="#evaluate(dynhelp)#"></textarea>                                                    
                                                 </cfcase>
 
                                                 <cfcase value="zipcode">
 
                                                     <div class="input-group mb-3">
 
+
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text" id="basic-addon2">
+  
+                                                              <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
+                                                              data-bs-toggle="modal" data-bs-target=".zipcode-modal">Find it</button>
+      
+                                                            </span>
+                                                          </div>                                                        
+
                                                         <input name="#thisField.fieldName#"
                                                             id="zipcode" 
                                                             type="number" 
                                                         maxlength="5"
                                                         minlength="5"
-                                                            class="form-control"
+                                                            class="form-control-sm"
+                                                            style="width: 100px;"
                                                     <cfif thisField.required> required </cfif>
-                                                    <cfif isdefined('#dynhelp#')> placeholder="#evaluate(dynhelp)#" </cfif> 
+                                                    placeholder="#evaluate(dynhelp)#"
                                                     />
     
 
-                                                        <div class="input-group-append">
-                                                          <span class="input-group-text" id="basic-addon2">
-
-                                                            <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
-                                                            data-bs-toggle="modal" data-bs-target=".zipcode-modal">Find it</button>
-    
-
-                                                          </span>
-                                                        </div>
                                                       </div>
 
 
         
                                                 </cfcase>
 
+                                                <cfcase value="idkey">
+                                                    <input type="text" 
+                                                        disabled value="#evaluate(dynhelp)#"
+                                                        class="form-control">
+                                                    <!--- no logic needed, key is inserted by backend service --->
+                                                </cfcase>
 
                                                 <cfdefaultcase>
                                                         <input name="#thisField.fieldName#" 
@@ -90,7 +97,7 @@
                                                         minlength="#thisField.minlength#"
                                                             class="form-control"
                                                             <cfif thisField.required> required </cfif>
-                                                            <cfif isdefined('#dynhelp#')> placeholder="#evaluate(dynhelp)#" </cfif> 
+                                                            placeholder="#evaluate(dynhelp)#" 
                                                             />
                                                 </cfdefaultcase>
                                             </cfswitch>
@@ -145,10 +152,10 @@
                         <div>
                             <cfinvoke component="/root/functions/remote" method="getStates" returnvariable="states">
                             <cfset mystates = deserializeJSON(states)>
-                            <select name="state" class="form-control-lg stateToCounty" id="state" data-target="county" data-action="http://tutoro.me/davis/functions/remote.cfc?method=getCounties">
+                            <select name="state" class="form-select stateToCounty" style="width: 100%;" id="state" data-target="county" data-action="http://tutoro.me/davis/functions/remote.cfc?method=getCounties">
                                 <option value="">Select State</option>
                                 <cfloop from="1" to="#arraylen(mystates)#" index="X">
-                                    <option value="#mystates[X].value#">#mystates[X].name#</option>
+                                    <option value="#mystates[X].abbreviation#">#mystates[X].name#</option>
                                 </cfloop>
                             </select>
                         </div>
@@ -157,7 +164,7 @@
                     <div class="mb-3">
                         <label class="form-label">County</label>
                         <div>
-                            <select name="county" class="form-control-lg countyToCity" id="county" data-target="city" data-action="http://tutoro.me/davis/functions/remote.cfc?method=getCities">
+                            <select name="county" class="form-select countyToCity" style="width: 100%;" id="county" data-target="city" data-action="http://tutoro.me/davis/functions/remote.cfc?method=getCities">
                             </select>
                         </div>
                     </div>
@@ -165,16 +172,16 @@
                     <div class="mb-3">
                         <label class="form-label">City</label>
                         <div>
-                            <select name="city" class="form-control-lg" id="city">
+                            <select name="city" class="form-select" id="city" style="width: 100%;">
                             </select>
                         </div>
                     </div>
 
 
-                    <div>
-                        <button type="submit" class="btn btn-primary waves-effect waves-light me-1 updateZipCode">
+                    <div class="text-center">
+                        <a class="btn btn-primary waves-effect waves-light me-1 updateZipCode">
                             Select this Zipcode
-                        </button>
+                        </a>
                     </div>
 
 
