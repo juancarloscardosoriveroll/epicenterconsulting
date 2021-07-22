@@ -32,7 +32,8 @@ component
         Application.labels = Application.helper.getLangFile();
         Application.errors = Application.helper.getErrorFile();
         Application.setup = Application.helper.getSetupFile();        
-        Application.permits = Application.helper.getPermitFile();        
+        Application.permits = Application.setup["permits"];  
+        Application.catalogs = createObject('component','root/functions/catalogs');
         return true;  
     }
 

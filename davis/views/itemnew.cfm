@@ -83,10 +83,10 @@
                         <div>
                             <div>
                                 <button type="submit" class="btn btn-primary waves-effect waves-light me-1">
-                                    #Application.labels["register_submit"]#
+                                    #Application.labels["catalogs_submit"]#
                                 </button>
                                 <button type="reset" class="btn btn-secondary waves-effect">
-                                    #Application.labels["register_reset"]#
+                                    #Application.labels["catalogs_reset"]#
                                 </button>
                             </div>
                         </div>

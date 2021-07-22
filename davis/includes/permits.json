@@ -1,10 +1,1 @@
-[
-    {"permitName" : "users.register", "describe" : "create new users"},
-    {"permitName" : "users.edit", "describe" : "update other user's profile"},
-    {"permitName" : "users.permits", "describe" : "set permits for other users"},
-    {"permitName" : "users.password", "describe" : "set password for other users"},
-    {"permitName" : "users.active", "describe" : "enable or disable other users"},
-    {"permitName" : "catalogs.itemnew", "describe" : "insert new catalog items"},
-    {"permitName" : "catalogs.itemedit", "describe" : "update other user's catalog items"}, 
-    {"permitName" : "catalogs.active", "describe" : "enable or disable catalog items"}
-]  
+// moved to settings.json

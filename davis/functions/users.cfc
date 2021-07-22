@@ -79,7 +79,7 @@
             <cfreturn newID>
             <cfcatch>
                 <!--- Log to _errors table for future troubleshooting and return cfcatch error --->
-                <cfset Application.helper.logCatchError("users.createUser",arguments,cfcatch)>
+                <cfset Application.helper.logCatchError("users.register",arguments,cfcatch)>
                 <cfreturn -1001>
             </cfcatch>
         </cftry>

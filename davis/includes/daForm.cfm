@@ -120,35 +120,70 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
 
     </cfcase>
 
-    <cfcase value="daToggle">
-        <!--- this Case is the "HUB" for all ON/OFF requests from url --->
-        <cfset methodName = replacenocase(daPermit,'.','','ALL')>
-
+    <cfcase value="newContact">
         <cfif Not(isdefined("session.userid"))>
             <cfset resultCode = -1002> <!--- Needs to Login --->
-        <cfelseif Not(Application.helper.hasPermit(session.userid,daPermit))>
+        <cfelseif Not(Application.helper.hasPermit(session.userid,"contacts.new"))>
             <cfset resultCode = -1003> <!--- Doesn´t have Permission --->
         <cfelse>
             <!--- Run Component to Change Password --->
-            <cfinvoke component="/root/functions/daToggle" method="#methodName#" returnvariable="resultCode"
-                    field="#url.field#"
-                    id="#url.Id#">
+            <cfparam name="form.contactTypes" default="">
+            <cfinvoke component="/root/functions/contacts" method="newcontact" returnvariable="resultCode"
+                    cCoName="#form.cCoName#"
+                    cFirstName="#form.cFirstName#"
+                    cLastName="#form.cLastName#"
+                    cPhoneMain="#form.cPhoneMain#"
+                    cPhone800="#form.cPhone800#" 
+                    cEmail="#form.cEmail#"
+                    cWebsite="#form.cWebsite#"
+                    cStreetNum="#form.cStreetNum#"
+                    zipcode="#form.zipcode#"
+                    refType="#form.refType#"
+                    contactTypes="#form.contactTypes#"
+                    cownerid="#session.userID#">
 
-            <!--- RETURNS based on function, try to Use resultCode as callback value --->
-            <cfswitch expression="#methodName#">
-                <cfcase value="usersactive,catalogsactive">
-                    <cfset Result["success"] = true>
-                    <cfset Result["view"] = "stay;self">
-                    <cfset Result["message"] = "">
-                    <cfset Result["data"] = structnew()>
-                    <cfset Result.data["callback"] = resultCode>
-                </cfcase>
-            </cfswitch>
+        </cfif>
 
+        <!--- Good Result (update Success) --->
+        <cfif resultCode GT 0>
+            <cfset Result["success"] = true>
+            <cfset Result["message"] = Application.labels["newcontact_success"]>
+        </cfif>
+    </cfcase>
+
+
+    <cfcase value="contactEdit">
+        <cfif Not(isdefined("session.userid"))>
+            <cfset resultCode = -1002> <!--- Needs to Login --->
+        <cfelseif (session.userid neq form.cownerid) AND (Not(Application.helper.hasPermit(session.userid,"contacts.edit")))>
+            <cfset resultCode = -1003> <!--- Doesn´t have Permission --->
+        <cfelse>
+            <!--- Run Component to Change Password --->
+            <cfparam name="form.contactTypes" default="">
+            <cfinvoke component="/root/functions/contacts" method="contactsedit" returnvariable="resultCode"
+                    cCoName="#form.cCoName#"
+                    cFirstName="#form.cFirstName#"
+                    cLastName="#form.cLastName#"
+                    cPhoneMain="#form.cPhoneMain#"
+                    cPhone800="#form.cPhone800#" 
+                    cEmail="#form.cEmail#"
+                    cWebsite="#form.cWebsite#"
+                    cStreetNum="#form.cStreetNum#"
+                    zipcode="#form.zipcode#"
+                    refType="#form.refType#"
+                    contactTypes="#form.contactTypes#"
+                    cId="#form.cId#"> 
+        </cfif>
+
+        <!--- Good Result (update Success) --->
+        <cfif resultCode GT 0>
+            <cfset Result["success"] = true>
+            <cfset Result["message"] = Application.labels["contactedit_success"]>
         </cfif>
 
 
     </cfcase>
+
 
     <cfcase value="itemNew">
         <cfif Not(isdefined("session.userid"))>
@@ -196,6 +231,38 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
             <cfset form["catId"] = resultCode> <!--- add this to form to customize msg --->
         </cfif>
     </cfcase>
+
+
+    <cfcase value="daToggle">
+        <!--- this Case is the "HUB" for all ON/OFF requests from url --->
+        <cfset methodName = replacenocase(daPermit,'.','','ALL')>
+
+        <cfif Not(isdefined("session.userid"))>
+            <cfset resultCode = -1002> <!--- Needs to Login --->
+        <cfelseif Not(Application.helper.hasPermit(session.userid,daPermit))>
+            <cfset resultCode = -1003> <!--- Doesn´t have Permission --->
+        <cfelse>
+            <!--- Run Component to Change Password --->
+            <cfinvoke component="/root/functions/daToggle" method="#methodName#" returnvariable="resultCode"
+                    id="#url.Id#">
+
+            <!--- RETURNS based on function, try to Use resultCode as callback value --->
+            <cfswitch expression="#methodName#">
+                <cfcase value="usersactive,catalogsactive,contactsactive">
+                    <cfset Result["success"] = true>
+                    <cfset Result["view"] = "stay;self">
+                    <cfset Result["message"] = "">
+                    <cfset Result["data"] = structnew()>
+                    <cfset Result.data["callback"] = resultCode>
+                </cfcase>
+            </cfswitch>
+
+        </cfif>
+
+
+    </cfcase>
+
+
 
 </cfswitch>
 

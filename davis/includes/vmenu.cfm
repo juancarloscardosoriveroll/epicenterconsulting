@@ -31,22 +31,58 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="index.cfm">#Application.labels['sidemenu_home_group_dashboard']#</a></li>
                     </ul>
-
-                    <!--- Contacts --->
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="#Application.urlPath#/?view=contactlist">#Application.labels['sidemenu_contacts_group']#</a></li>
-                    </ul>
-
                     <!--- Users --->
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="#Application.urlPath#/?view=userlist">#Application.labels['sidemenu_users_group']#</a></li>
                     </ul>
-
-
                 </li>
 
+                <!--- Contacts ---> 
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="#Application.labels['sidemenu_contacts_icon']#"></i>
+                        <span>#Application.labels['sidemenu_contacts_group']#</span>
+                    </a>
 
-                
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li>
+                            <a href="#Application.urlPath#/?view=contactlist&contactType=isLead">
+                                <span>#Application.labels['sideMenu_contacts_isLead']#</span>
+                            </a> 
+                        </li>
+
+                        <li>
+                            <a href="#Application.urlPath#/?view=contactlist&contactType=isMarina">
+                                <span>#Application.labels['sideMenu_contacts_isMarina']#</span>
+                            </a> 
+                        </li>
+
+                        <li>
+                            <a href="#Application.urlPath#/?view=contactlist&contactType=isOEM">
+                                <span>#Application.labels['sideMenu_contacts_isOEM']#</span>
+                            </a> 
+                        </li>
+
+                        <li>
+                            <a href="#Application.urlPath#/?view=contactlist&contactType=isMFG">
+                                <span>#Application.labels['sideMenu_contacts_isMFG']#</span>
+                            </a> 
+                        </li>
+
+                        <li>
+                            <a href="#Application.urlPath#/?view=contactlist&contactType=isSalC">
+                                <span>#Application.labels['sideMenu_contacts_isSalC']#</span>
+                            </a> 
+                        </li>
+                        <li>
+                            <a href="#Application.urlPath#/?view=contactlist&contactType=isOmim">
+                                <span>#Application.labels['sideMenu_contacts_isOmim']#</span>
+                            </a> 
+                        </li>
+
+
+                    </ul>
+                </li>
 
                 <!---Catalogs --->
                 <li>

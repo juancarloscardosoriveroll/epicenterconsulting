@@ -1,5 +1,9 @@
 {
     "register_validatePhone" : false,
+    "contacts_validatePhone" : true,
+    "contacts_validateZipCode" : true,
+    "contacts_noPhoneDups" : true,
+    "contacts_noEmailDups" : true,
     "initial_permits" : [],
     "duplicate_skip_words" : ["bank","salvage","1st"],
     "catalogs" : [
@@ -13,5 +17,20 @@
         {"display" : "Reference Types", "id" : "referenceTypes"},
         {"display" : "Salvage Types", "id" : "salvageTypes"},
         {"display" : "Source Types", "id" : "sourceTypes"}
-    ]              
+    ],
+    "permits" : 
+    [
+        {"permitName" : "users.register", "describe" : "create new users"},
+        {"permitName" : "users.edit", "describe" : "update other user's profile"},
+        {"permitName" : "users.permits", "describe" : "set permits for other users"},
+        {"permitName" : "users.password", "describe" : "set password for other users"},
+        {"permitName" : "users.active", "describe" : "enable or disable other users"},
+        {"permitName" : "catalogs.itemnew", "describe" : "insert new catalog items"},
+        {"permitName" : "catalogs.itemedit", "describe" : "update other user's catalog items"}, 
+        {"permitName" : "catalogs.active", "describe" : "enable or disable catalog items"},
+        {"permitName" : "contacts.new", "describe" : "register new contacts"},
+        {"permitName" : "contacts.edit", "describe" : "update other user´s contacts"}, 
+        {"permitName" : "contacts.active", "describe" : "enable or disable contacts"}
+
+    ]                    
 }

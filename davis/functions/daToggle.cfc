@@ -1,6 +1,5 @@
 <cfcomponent>
     <cffunction name="usersactive">
-        <cfargument name="field">
         <cfargument name="id">
 
         <cfquery dbtype="odbc" datasource="#application.datasource#" name="original">
@@ -21,7 +20,6 @@
     </cffunction>
 
     <cffunction name="catalogsactive">
-        <cfargument name="field">
         <cfargument name="id">
 
         <cfquery dbtype="odbc" datasource="#application.datasource#" name="original">
@@ -40,4 +38,26 @@
         </cfif>            
      
     </cffunction>  
+
+    <cffunction name="contactsActive">
+        <cfargument name="id">
+
+        <cfquery dbtype="odbc" datasource="#application.datasource#" name="original">
+            select cIsValid from _contacts where cid = <cfqueryparam value="#arguments.id#">
+        </cfquery>
+
+        <cfquery dbtype="odbc" datasource="#application.datasource#" name="flip">
+            update _contacts set cIsValid = cIsValid^1 where cId = <cfqueryparam value="#arguments.id#">
+        </cfquery>    
+  
+        <cfif original.cisValid>      
+            <!--- Return Opposite value --->
+            <cfreturn "<div class='alert alert-danger' role='alert'>#Application.labels['General_no']#</div>">
+        <cfelse> 
+            <cfreturn "<div class='alert alert-success' role='alert'>#Application.labels['general_yes']#</div>">
+        </cfif>            
+     
+    </cffunction>
+
+
 </cfcomponent>

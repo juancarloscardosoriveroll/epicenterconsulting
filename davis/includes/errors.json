@@ -11,5 +11,10 @@
     "E_5" : "%userEmail is already registered",
     "E_6" : "%userEmail is not registered",
     "E_7" : "invalid password",
-    "E_8" : "%itemName already exists in Catalog"
+    "E_8" : "%itemName already exists in Catalog",
+    "E_9" : "You need to define at least one contactType",
+    "E_10" : "%zipcode is not a valid US zipcode",
+    "E_11" : "%cPhoneMain is an Invalid Phone",
+    "E_12" : "Phone Number is not allowed to Repeat",
+    "E_13" : "Email is not allowed to Repeat"     
 }

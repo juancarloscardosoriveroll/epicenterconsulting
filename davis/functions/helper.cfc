@@ -14,11 +14,6 @@
         <cfreturn deserializeJSON(setup)>        
     </cffunction>
 
-    <cffunction name="getPermitFile" hint="Loads Permits BaseFile and returns a simple array" returntype="array" access="public">
-        <cffile action="read" file="#expandpath('/root/includes/permits.json')#" variable="permits">
-        <cfreturn deserializeJSON(permits)>         
-    </cffunction>
-
     <cffunction name="hasPermit" hint="Returns true or false based on asset and method" returntype="boolean" access="public">
         <cfargument name="userId" type="numeric">
         <cfargument name="permitName" type="string" hint="Name of registered asset">
