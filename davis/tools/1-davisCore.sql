@@ -137,8 +137,8 @@ GO
 
 -- Inserting 1 row into dbo._users
 -- Insert batch #1
-INSERT INTO dbo._users (userId, userActive, userFirstName, userLastName, userEmail, userPass, userPhone, userRegDate, accessToken) VALUES
-(1, 1, 'Davis', '&Co', 'info@daviscoltd.com', '0E382076EBF46BC5BA91AB2C5B2BBAF7733C2005', '1-800-223-8816', '2021-07-22 21:05:41.010', NULL);
+INSERT INTO dbo._users (userActive, userFirstName, userLastName, userEmail, userPass, userPhone, userRegDate, accessToken) VALUES
+(1, 'Davis', '&Co', 'info@daviscoltd.com', '0E382076EBF46BC5BA91AB2C5B2BBAF7733C2005', '1-800-223-8816', '2021-07-22 21:05:41.010', NULL);
 
 -- END TABLE dbo._users
 
@@ -159,19 +159,20 @@ GO
 
 -- Inserting 12 rows into dbo._users_permits
 -- Insert batch #1
-INSERT INTO dbo._users_permits (permitId, userId, permitName) VALUES
-(1, 1, 'users.register'),
-(2, 1, 'users.userlist.view'),
-(3, 1, 'users.active'),
-(4, 1, 'catalogs.itemnew'),
-(5, 1, 'catalogs.itemedit'),
-(6, 1, 'catalogs.active'),
-(7, 1, 'users.edit'),
-(8, 1, 'users.password'),
-(9, 1, 'contacts.new'),
-(10, 1, 'contacts.edit'),
-(11, 1, 'contacts.active'),
-(12, 1, 'contacts.metadelete');
+INSERT INTO dbo._users_permits (userId, permitName) VALUES
+(1, 'users.register'),
+(1, 'users.active'),
+(1, 'catalogs.itemnew'),
+(1, 'catalogs.itemedit'),
+(1, 'catalogs.active'),
+(1, 'users.edit'),
+(1, 'users.password'),
+(1, 'contacts.new'),
+(1, 'contacts.edit'),
+(1, 'contacts.active'),
+(1, 'contacts.metadelete'),
+(1, 'users.permits')
+;
 
 -- END TABLE dbo._users_permits
 

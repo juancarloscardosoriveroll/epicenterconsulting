@@ -18,7 +18,7 @@
         {"display" : "Salvage Types", "id" : "salvageTypes"},
         {"display" : "Source Types", "id" : "sourceTypes"}
     ],
-    "permits" : 
+    "permits" :  
     [
         {"permitName" : "users.register", "describe" : "create new users"},
         {"permitName" : "users.edit", "describe" : "update other user's profile"},
