@@ -232,6 +232,27 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
         </cfif>
     </cfcase>
 
+    <cfcase value="contactMeta">
+        <cfif Not(isdefined("session.userid"))>
+            <cfset resultCode = -1002>  <!--- Needs to Login --->
+        <cfelseif (session.userid neq form.cownerid) AND (Not(Application.helper.hasPermit(session.userid,"contacts.edit")))>
+            <cfset resultCode = -1003> <!--- Doesn´t have Permission --->
+        <cfelse>
+            <!--- Run Component to Create New Account --->
+            <cfinvoke component="/root/functions/contacts" method="metamanage" returnvariable="resultCode"
+                cField="#form.cField#" 
+                cValue="#form.cValue#" 
+                cID="#form.cID#"
+                dataID="#form.dataID#">
+        </cfif>
+
+        <cfif resultCode GT 0>
+            <cfset Result["success"] = true>
+            <cfset Result["message"] = Application.labels["contactmeta_success"]>
+            <cfset Result["view"] = "reload;self">
+        </cfif>
+    </cfcase>
+
 
     <cfcase value="daToggle">
         <!--- this Case is the "HUB" for all ON/OFF requests from url --->
@@ -251,9 +272,15 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
                 <cfcase value="usersactive,catalogsactive,contactsactive">
                     <cfset Result["success"] = true>
                     <cfset Result["view"] = "stay;self">
-                    <cfset Result["message"] = "">
+                    <cfset Result["message"] = Application.labels['general_success']>
                     <cfset Result["data"] = structnew()>
                     <cfset Result.data["callback"] = resultCode>
+                </cfcase>
+                <cfcase value="contactsmetadelete">
+                    <cfset Result["success"] = true>
+                    <cfset Result["view"] = "reload;self">
+                    <cfset Result["message"] = Application.labels['general_success']>
+                    <cfset Result["data"] = structnew()>
                 </cfcase>
             </cfswitch>
 

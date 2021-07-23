@@ -30,7 +30,8 @@
         {"permitName" : "catalogs.active", "describe" : "enable or disable catalog items"},
         {"permitName" : "contacts.new", "describe" : "register new contacts"},
         {"permitName" : "contacts.edit", "describe" : "update other user´s contacts"}, 
-        {"permitName" : "contacts.active", "describe" : "enable or disable contacts"}
-
-    ]                    
+        {"permitName" : "contacts.active", "describe" : "enable or disable contacts"},
+        {"permitName" : "contacts.metadelete", "describe" : "delete saved contact meta data"}
+    ],
+    "metacontacts" : [ "Interest", "Notes", "Fax", "Item and Price", "Model", "Techlist", "Recalls", "Contact Title", "CGMFGId", "Last Contact" ]                    
 }

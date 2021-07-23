@@ -245,6 +245,18 @@
     "contactedit_website_help" : "Enter a valid Website URL address",
     "contactedit_reftype_label" : "Type of Reference",
     "contactedit_reftype_help" : "Select a Valid Reference Type",
-    "contactedit_success" : "%cFirstName was succesfully updated"
+    "contactedit_success" : "%cFirstName was succesfully updated",
+    "contactmeta_header" : "MetaData Contact Information",
+    "contactmeta_intro" : "Include any Data relevant to this Contact",
+    "contactmeta_title" : "Meta Data",
+    "contactmeta_subtitle" : "Open Texts Input",
+    "contactmeta_field" : "Field",
+    "contactmeta_value" : "Value",
+    "contactmeta_success" : "Information was stored correctly",
+    "contactmeta_submit" : "Add",
+    "general_edit" : "Edit",
+    "general_delete" : "Delete",
+    "general_back" : "Back",
+    "general_success" : "Success" 
 }
  

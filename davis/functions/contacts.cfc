@@ -4,7 +4,7 @@
         <cfargument name="cID" default="0" type="integer" required="false">
 
         <cfquery dbtype="odbc" datasource="#application.datasource#" name="data">
-        select * from _contacts c, _users u
+        select *, 0 as meta from _contacts c, _users u
         where c.cOwnerID = u.userID
             <cfif listfindnocase(arguments.contactTypes,'isMarina')>
                 and c.isMarina = 1
@@ -29,6 +29,14 @@
             </cfif>               
         order by c.cID desc     
         </cfquery> 
+
+        <cfloop query="data">
+            <cfquery dbtype="odbc" datasource="#application.datasource#" name="cuenta">
+                select count(*) as total from _contacts_data where cid = <cfqueryparam value="#data.cid[currentRow]#">
+            </cfquery>
+            <cfset querysetcell(data,"meta",cuenta.total,data.currentRow)>
+        </cfloop>
+
 
         <cfreturn data>  
     </cffunction>
@@ -228,6 +236,45 @@
         </cfquery>
         <cfreturn data>
 
+    </cffunction>
+
+
+    <cffunction name="getContactsMeta">
+        <cfargument name="cId">
+
+        <cfquery dbtype="odbc" datasource="#application.datasource#" name="meta">
+            select * from _contacts_data 
+            where cid = <cfqueryparam value="#arguments.cid#">
+            order by dataid desc
+        </cfquery>
+
+        <cfreturn meta>
+    </cffunction>
+
+
+    <cffunction name="metaManage">
+        <cfargument name="cField">
+        <cfargument name="cValue">
+        <cfargument name="cId">
+        <cfargument name="dataId">
+
+        <!--- if DataID is 0 then it´s new --->
+        <cfif arguments.dataID eq 0>
+            <cfquery dbtype="odbc" datasource="#application.datasource#" result="insert">
+                insert into _contacts_data 
+                    (cId, cField, cValue)
+                values 
+                    (<cfqueryparam value="#arguments.cId#">,<cfqueryparam value="#arguments.cField#">,<cfqueryparam value="#arguments.cValue#">)
+            </cfquery>            
+            <cfreturn insert["GENERATEDKEY"]>
+        <cfelse>
+            <cfquery dbtype="odbc" datasource="#application.datasource#" name="update">
+                update _contacts_data 
+                set cField = <cfqueryparam value="#arguments.cField#">, cValue = <cfqueryparam value="#arguments.cValue#">
+                where dataid = <cfqueryparam value="#arguments.dataId#">
+            </cfquery>
+            <cfreturn arguments.dataID>           
+        </cfif>
     </cffunction>
 
 

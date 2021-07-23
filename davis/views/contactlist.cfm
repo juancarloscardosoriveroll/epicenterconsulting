@@ -29,6 +29,7 @@
                             <th>#Application.labels['general_company']#</th>
                             <th>#Application.labels['general_name']#</th>
                             <th>#Application.labels['general_contact']#</th>
+                            <th><i class="dripicons-information"></i></th>
                             <th>#Application.labels['general_owner']#</th>
                             <th>isValid</th>
                         </tr>
@@ -37,10 +38,16 @@
                     <tbody>
                         <cfloop query="Contacts">
                             <tr>
-                                <td>#cID#</td>
+                                <td>
+                                    #cID#
+                                </td>
                                 <td><a href="#Application.urlPath#/index.cfm?view=contactEdit&cId=#cId#">#trim(cCoName)#</a></td>
                                 <td>#trim(cFirstName)#<br>#trim(cLastName)#</td>
                                 <td>#trim(cEmail)#<br>#trim(cPhoneMain)#</td>
+                                <td>
+                                    <!--- Link to Metadata --->
+                                    <a href="#Application.urlPath#/index.cfm?view=contactMeta&cId=#cId#">#meta#</a>
+                                </td>
                                 <td>#trim(userFirstName)#<br>#trim(userLastName)#</td>   
                                 <td>
                                     <!--- daToggle Function --->

@@ -59,5 +59,14 @@
      
     </cffunction>
 
+    <cffunction name="contactsmetadelete">
+        <cfargument name="id">
+
+        <cfquery dbtype="odbc" datasource="#application.datasource#" name="borra">
+            delete from _contacts_data 
+            where dataid = <cfqueryparam value="#arguments.id#">
+        </cfquery>
+        <cfreturn true> 
+    </cffunction>
 
 </cfcomponent>
