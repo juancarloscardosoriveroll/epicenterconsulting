@@ -69,20 +69,58 @@ $(".daForm").on("submit", function(event){
 });
 
 
-$(".stateToCounty").on("change",function(event){
-    /* Convert from URL Data Attr to Dynamic Form so to use daForm logic */
-    var myState = $(this).val();
-    var myTarget = $(this).data("target");
-    var myAction = $(this).data("action") + "&state=" + myState; 
+$(".getStatesfromCountry").on("change",function(event){
+    
+    var myCountry = $(this).val();
+    var myAction = $(this).data("action") + "&country=" + myCountry; 
 
-    let dropdown = $("#" + myTarget);
-    dropdown.empty();
-    dropdown.append('<option selected="true" disabled>Choose County</option>'); 
-    dropdown.prop('selectedIndex', 0);
+    let dropdown1 = $("#state");
+    dropdown1.empty();
+    dropdown1.append('<option selected="true" disabled>Choose State</option>'); 
+    dropdown1.prop('selectedIndex', 0);
+
+    let dropdown2 = $("#county");
+    dropdown2.empty();
+    dropdown2.append('<option selected="true" disabled>Choose County</option>'); 
+    dropdown2.prop('selectedIndex', 0);
+
+    let dropdown3 = $("#city");
+    dropdown3.empty();
+    dropdown3.append('<option selected="true" disabled>Choose City</option>'); 
+    dropdown3.prop('selectedIndex', 0);
+
 
     $.getJSON(myAction, function (data) {
         $.each(data, function (key, entry) {
-          dropdown.append($('<option></option>').attr('value', myState + ',' + entry.value).text(entry.name));
+          dropdown1.append($('<option></option>').attr('value',myCountry + ',' +  entry.abbreviation).text(entry.name));
+        })
+      });
+});
+
+
+
+$(".stateToCounty").on("change",function(event){
+    /* Convert from URL Data Attr to Dynamic Form so to use daForm logic */
+    var tempval = $(this).val();
+    var myCountry = tempval.split(",")[0];     
+    var myState = tempval.split(",")[1]; 
+
+    var myAction = $(this).data("action") + "&state=" + myState + "&country=" + myCountry; 
+
+    let dropdown1 = $("#county");
+    dropdown1.empty();
+    dropdown1.append('<option selected="true" disabled>Choose State</option>'); 
+    dropdown1.prop('selectedIndex', 0);
+
+    let dropdown2 = $("#city");
+    dropdown2.empty();
+    dropdown2.append('<option selected="true" disabled>Choose County</option>'); 
+    dropdown2.prop('selectedIndex', 0);
+ 
+
+    $.getJSON(myAction, function (data) {
+        $.each(data, function (key, entry) {
+          dropdown1.append($('<option></option>').attr('value', myState + ',' + entry.value).text(entry.name));
         })
       });
 });
@@ -92,17 +130,16 @@ $(".countyToCity").on("change",function(event){
     var tempval = $(this).val();
     var myState = tempval.split(",")[0];     
     var myCounty = tempval.split(",")[1];     
-    var myTarget = $(this).data("target");
     var myAction = $(this).data("action") + "&state=" + myState + "&county=" + myCounty; 
 
-    let dropdown = $("#" + myTarget);
-    dropdown.empty();
-    dropdown.append('<option selected="true" disabled>Choose City</option>');
-    dropdown.prop('selectedIndex', 0);
+    let dropdown1 = $("#city");
+    dropdown1.empty();
+    dropdown1.append('<option selected="true" disabled>Choose State</option>'); 
+    dropdown1.prop('selectedIndex', 0);
 
     $.getJSON(myAction, function (data) {
         $.each(data, function (key, entry) {
-          dropdown.append($('<option></option>').attr('value', entry.value).text(entry.name));
+          dropdown1.append($('<option></option>').attr('value', entry.value).text(entry.name));
         })
       });
 });
@@ -113,6 +150,20 @@ $(".updateZipCode").on("click",function(event){
     $("#zipcode").val(zipcode);
     $(".zipcode-modal").modal('hide');
 
+});
+
+$( function() {
+    
+    $( ".cid" ).autocomplete({
+      source: "http://tutoro.me/davis/functions/remote.cfc?method=AC_Contacts&contactType=" + $(".cid").data("type"),
+      minLength: 2,
+      select: function( event, ui ) {
+        $("#insName").val(ui.item.label);
+        $("#insAddress").val(ui.item.address);
+        $("#insContact").val(ui.item.contact);
+
+      }
+    });
 });
 
 

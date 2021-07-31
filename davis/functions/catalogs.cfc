@@ -128,4 +128,27 @@
         </cftry>
 
     </cffunction>
+
+    <cffunction name="getStats" hint="returns a structure with stats fot itemtypes">
+
+        <!--- Initialize Container --->
+        <cfset result = structnew()>
+        <cfloop from="1" to="#arraylen(Application.setup.catalogs)#" index="CT">
+            <cfset cat = Application.setup.catalogs[CT]>
+            <cfset result["#CAT.id#"] = 0>
+        </cfloop>
+
+        <!--- Count --->
+        <cfquery dbtype="odbc" datasource="#application.datasource#" name="data">
+            select count(*) as total, catType 
+            From _catalogs 
+            group by catType
+        </cfquery>
+        <cfloop query="data">
+            <cfset result[catType] = total>
+        </cfloop>
+
+        <cfreturn result>
+
+    </cffunction>
 </cfcomponent>

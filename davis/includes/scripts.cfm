@@ -10,6 +10,8 @@
 <script src="#Application.urlPath#/template/admin/dist/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js"></script>
 <script src="#Application.urlPath#/template/admin/dist/assets/js/pages/dashboard.init.js"></script>
 <script src="#Application.urlPath#/template/admin/dist/assets/js/app.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 <!--- Form Validation Scripts --->
 <script src="#Application.urlPath#/template/admin/dist/assets/libs/parsleyjs/parsley.min.js"></script>

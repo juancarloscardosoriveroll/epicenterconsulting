@@ -1,3 +1,6 @@
+<cfparam name="contactType" default="isLead"> 
+<cfparam name="newOrder" default="1">
+
 <cfoutput>
     <div class="row">
         <div class="col-lg-12">
@@ -9,25 +12,24 @@
                     <p class="card-title-desc">#Application.labels["newcontact_intro"]#</p> 
     
                     <form class="custom-validation daForm" id="daForm" action="#Application.urlPath#/includes/daForm.cfm?daCase=newcontact">
+                        <input type="hidden" name="newOrder" value="#newOrder#">
 
-                        <!--- REFTYPE --->
+                        <!--- COUNTRY --->
                         <div class="mb-3">
                             <label class="form-label">
-                                #Application.labels['newcontact_refType_label']#
+                                #Application.labels['newcontact_country_label']#
                             </label>
                             <div>
-                                <cfset refTypes = Application.catalogs.getItems('referenceTypes')>
-                                <select name="refType" class="form-select" required >
-                                    <option value="" selected>#Application.labels['general_selectOne']#</option>
-                                    <cfloop query="refTypes">
-                                        <cfif catActive>
-                                            <option value="#itemId#">#itemName#</option>
-                                        </cfif>  
+                                <cfinvoke component="/functions/remote" method="getCountries" returnvariable="Ct">
+                                <cfset myCountries = deserializeJSON(ct)>
+                                <select name="cCountry"  class="form-select getStatesfromCountry" data-target="state" data-action="#application.urlPath#/functions/remote.cfc?method=getStates" required>
+                                    <cfloop from="1" to="#arraylen(myCountries)#" index="thisCountry">
+                                        <option value="#myCountries[thisCountry].code#" <cfif myCountries[thisCountry].code eq 'US'> selected </cfif>>#myCountries[thisCountry].name#</option>
                                     </cfloop>
-                                </select>
+                                </select>  
                             </div>
                         </div>
-  
+
 
                         <!--- ZIPCODE --->  
                         <div class="mb-3">
@@ -38,7 +40,7 @@
                             <div class="input-group-append">
                                 <span class="input-group-text" id="basic-addon2">
                                     <input name="zipcode"
-                                    id="zipcode" type="number" maxlength="5" minlength="5" required
+                                    id="zipcode" type="text" maxlength="10" minlength="3" required
                                     class="form-control-sm"
                                     placeholder="#Application.labels['newcontact_zipcode_help']#" />
 
@@ -58,7 +60,7 @@
                                 #Application.labels['newcontact_company_label']#
                             </label>
                             <div>
-                                <input name="cCoName" type="text" maxlength="50" minlength="5" class="form-control" required  
+                                <input name="cCoName" type="text" maxlength="50" minlength="5" class="form-control"  
                                 placeholder="#Application.labels['newcontact_company_help']#" />
                             </div>
                         </div>
@@ -110,19 +112,6 @@
                             </div>
                         </div>
 
-
-                        <!--- PHONE 800 --->
-                        <div class="mb-3">
-                            <label class="form-label">
-                                #Application.labels['newcontact_phone800_label']#
-                            </label>
-                            <div>
-                                <input name="cPhone800" type="text" data-parsley-type="number" maxlength="50" minlength="5" class="form-control"  
-                                placeholder="#Application.labels['newcontact_phone800_help']#" />  
-                            </div>
-                        </div>
-
-
                         <!--- EMAIL --->
                         <div class="mb-3">
                             <label class="form-label">
@@ -134,56 +123,68 @@
                             </div>
                         </div>
 
-                        <!--- WEBSITE --->
-                        <div class="mb-3">
-                            <label class="form-label">
-                                #Application.labels['newcontact_website_label']#
-                            </label>
-                            <div>
-                                <input name="cWebsite" type="text" data-parsley-type="url" maxlength="150" minlength="5" class="form-control"  
-                                placeholder="#Application.labels['newcontact_website_help']#" />  
-                            </div>
-                        </div>
 
                         <!--- SWITCHES --->
                         <div class="row">
                             <div class="col-sm">
+                                <!--- isAcct --->
+                                <div class="form-check form-switch">
+                                    #Application.labels['contactlist_isAcct']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isAcct" value="isAcct" <cfif listfindnocase(contactType,'isAcct')> checked </cfif> data-parsley-mincheck="1" >
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <!--- isInsd --->
+                                <div class="form-check form-switch">
+                                    #Application.labels['contactlist_isInsd']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isInsd" value="isInsd" <cfif listfindnocase(contactType,'isInsd')> checked </cfif> >
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-sm">
                                 <!--- isLead --->
                                 <div class="form-check form-switch"> 
-                                    #Application.labels['contactlist_isLead']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isLead" value="isLead" data-parsley-mincheck="1" checked>
+                                    #Application.labels['contactlist_isLead']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isLead" value="isLead" <cfif listfindnocase(contactType,'islead')> checked </cfif> >
                                 </div>
                             </div>
 
                             <div class="col-sm">
                                 <!--- isMarina --->
                                 <div class="form-check form-switch">    
-                                    #Application.labels['contactlist_isMarina']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isMarina" value="isMarina" >
+                                    #Application.labels['contactlist_isMarina']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isMarina" value="isMarina" <cfif listfindnocase(contactType,'isMarina')> checked </cfif> >
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <!--- isOEM --->
                                 <div class="form-check form-switch">
-                                    #Application.labels['contactlist_isOEM']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isOEM" value="isOEM">
+                                    #Application.labels['contactlist_isOEM']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isOEM" value="isOEM" <cfif listfindnocase(contactType,'isOEM')> checked </cfif> >
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <!--- isMFG --->
                                 <div class="form-check form-switch">
-                                    #Application.labels['contactlist_isMFG']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isMFG" value="isMFG" >
+                                    #Application.labels['contactlist_isMFG']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isMFG" value="isMFG" <cfif listfindnocase(contactType,'isMFG')> checked </cfif> >
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <!--- isOMIM --->
                                 <div class="form-check form-switch">
-                                    #Application.labels['contactlist_isOMIM']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isOMIM" value="isOMIM">
+                                    #Application.labels['contactlist_isOMIM']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isOMIM" value="isOMIM" <cfif listfindnocase(contactType,'isOMIM')> checked </cfif> >
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <!--- isSAIC --->
                                 <div class="form-check form-switch">
-                                    #Application.labels['contactlist_isSALC']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isSALC" value="isSALC">
+                                    #Application.labels['contactlist_isSALC']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isSALC" value="isSALC" <cfif listfindnocase(contactType,'isSALC')> checked </cfif> >
                                 </div>
                             </div>
+                            <div class="col-sm">
+                                <!--- isOffice --->
+                                <div class="form-check form-switch">
+                                    #Application.labels['contactlist_isOffice']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isOffice" value="isOffice" <cfif listfindnocase(contactType,'isOffice')> checked </cfif> >
+                                </div>
+                            </div>
+
                         </div>
                         <label for="contactTypes"></label>                        
 
@@ -231,12 +232,12 @@
                     <div class="mb-3">
                         <label class="form-label">State</label>
                         <div>
-                            <cfinvoke component="/root/functions/remote" method="getStates" returnvariable="states">
+                            <cfinvoke component="/root/functions/remote" method="getStates" country="US" returnvariable="states">
                             <cfset mystates = deserializeJSON(states)>
-                            <select name="state" class="form-select stateToCounty" style="width: 100%;" id="state" data-target="county" data-action="http://tutoro.me/davis/functions/remote.cfc?method=getCounties">
+                            <select name="state" class="form-select stateToCounty" style="width: 100%;" id="state" data-target="county" data-action="#application.urlPath#/functions/remote.cfc?method=getCounties">
                                 <option value="">Select State</option>
                                 <cfloop from="1" to="#arraylen(mystates)#" index="X">
-                                    <option value="#mystates[X].abbreviation#">#mystates[X].name#</option>
+                                    <option value="US,#mystates[X].abbreviation#">#mystates[X].name#</option>
                                 </cfloop>
                             </select>
                         </div>
@@ -245,7 +246,7 @@
                     <div class="mb-3">
                         <label class="form-label">County</label>
                         <div>
-                            <select name="county" class="form-select countyToCity" style="width: 100%;" id="county" data-target="city" data-action="http://tutoro.me/davis/functions/remote.cfc?method=getCities">
+                            <select name="county" class="form-select countyToCity" style="width: 100%;" id="county" data-target="city" data-action="#application.urlPath#/functions/remote.cfc?method=getCities">
                             </select>
                         </div>
                     </div>

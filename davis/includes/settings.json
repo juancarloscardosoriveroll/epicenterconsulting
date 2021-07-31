@@ -1,22 +1,28 @@
 {
     "register_validatePhone" : false,
-    "contacts_validatePhone" : true,
-    "contacts_validateZipCode" : true,
+    "contacts_validatePhone" : false,
+    "contacts_validateZipCode" : false,
     "contacts_noPhoneDups" : true,
-    "contacts_noEmailDups" : true,
-    "initial_permits" : [],
+    "contacts_noEmailDups" : true, 
+    "initial_permits" : 
+    [
+        "catalogs.itemnew",
+        "catalogs.itemedit",
+        "catalogs.active"
+    ],
     "duplicate_skip_words" : ["bank","salvage","1st"],
     "catalogs" : [
-        {"display" : "Accident Types", "id" : "accidentTypes"},
-        {"display" : "Billing Types", "id" : "billingTypes"},
-        {"display" : "Boat Types", "id" : "boatTypes"},
-        {"display" : "Claim Types", "id" : "claimTypes"},
-        {"display" : "Fire Claim Types", "id" : "fireClaimTypes"},
-        {"display" : "Loss Types", "id" : "lossTypes"},
-        {"display" : "Payment Types", "id" : "paymentTypes"},
-        {"display" : "Reference Types", "id" : "referenceTypes"},
-        {"display" : "Salvage Types", "id" : "salvageTypes"},
-        {"display" : "Source Types", "id" : "sourceTypes"}
+        {"display" : "Accidents", "id" : "accidentTypes"},
+        {"display" : "Accounts", "id" : "accountTypes"},
+        {"display" : "Billing", "id" : "billingTypes"},
+        {"display" : "Boats", "id" : "boatTypes"},
+        {"display" : "Claims", "id" : "claimTypes"},
+        {"display" : "Fire Claims", "id" : "fireClaimTypes"},
+        {"display" : "Loss", "id" : "lossTypes"},
+        {"display" : "Payments", "id" : "paymentTypes"},
+        {"display" : "References", "id" : "referenceTypes"},
+        {"display" : "Salvage", "id" : "salvageTypes"},
+        {"display" : "Sources", "id" : "sourceTypes"}
     ],
     "permits" :  
     [
@@ -30,8 +36,37 @@
         {"permitName" : "catalogs.active", "describe" : "enable or disable catalog items"},
         {"permitName" : "contacts.new", "describe" : "register new contacts"},
         {"permitName" : "contacts.edit", "describe" : "update other user´s contacts"}, 
-        {"permitName" : "contacts.active", "describe" : "enable or disable contacts"},
-        {"permitName" : "contacts.metadelete", "describe" : "delete saved contact meta data"}
+        {"permitName" : "contacts.active", "describe" : "enable or disable contacts"}
     ],
-    "metacontacts" : [ "Interest", "Notes", "Fax", "Item and Price", "Model", "Techlist", "Recalls", "Contact Title", "CGMFGId", "Last Contact" ]                    
+    "metacontacts" : 
+    [ 
+        {"type" : "isSalC", "fieldName" : "Interests", "dataType" : "textarea", "default" : ""},
+        {"type" : "isMarina", "fieldName" : "Port", "dataType" : "text", "default" : ""},
+        {"type" : "isMarina", "fieldName" : "Manager", "dataType" : "text", "default" : ""},
+        {"type" : "isMarina", "fieldName" : "Slips", "dataType" : "number", "default" : 0},
+        {"type" : "isMarina", "fieldName" : "LargeSize", "dataType" : "number", "default" : 0},
+        {"type" : "isMarina", "fieldName" : "Storage", "dataType" : "select", "options" : "unknown,Yes,No", "default" : "unknown"},
+        {"type" : "isMarina", "fieldName" : "Indoor", "dataType" : "select", "options" : "unknown,Yes,No", "default" : "unknown"},
+        {"type" : "isMarina", "fieldName" : "Outdoor", "dataType" : "select", "options" : "unknown,Yes,No", "default" : "unknown"},
+        {"type" : "isMarina", "fieldName" : "Conditions", "dataType" : "select", "options" : "None,Excellent,Good,Average,Bad,Poor", "default" : "None"},
+        {"type" : "isMarina", "fieldName" : "LiftWeight", "dataType" : "number", "default" : 0},
+        {"type" : "isMarina", "fieldName" : "LiftSize", "dataType" : "number", "default" : 0}, 
+        {"type" : "isMarina", "fieldName" : "Repairs", "dataType" : "select", "options" : "unknown,Yes,No", "default" : "unknown"},
+        {"type" : "isMarina", "fieldName" : "Reputation", "dataType" : "select", "options" : "None,Excellent,Good,Average,Bad,Poor", "default" : "None"},
+        {"type" : "isMarina", "fieldName" : "HRRate", "dataType" : "number", "default" : 0},
+        {"type" : "isMarina", "fieldName" : "AsOfDate", "dataType" : "date", "default" : ""},
+
+        {"type" : "all", "fieldName" : "Phone800", "dataType" : "text", "default" : ""},
+        {"type" : "all", "fieldName" : "Website", "dataType" : "text", "default" : ""},
+        {"type" : "all", "fieldName" : "Title", "dataType" : "text", "default" : ""},
+        {"type" : "all", "fieldName" : "Fax", "dataType" : "text", "default" : ""},
+        {"type" : "all", "fieldName" : "Notes", "dataType" : "textarea", "default" : ""}
+
+    ],
+    "rkeycontacts" : 
+    [
+        {"type" : "isAcct", "catalog" : "accountTypes", "fieldName" : "acctCode", "default" : 0},
+        {"type" : "isLead", "catalog" : "referenceTypes", "fieldName" : "refType", "default" : 0}
+    ]
+
 }

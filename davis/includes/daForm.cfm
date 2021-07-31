@@ -133,19 +133,24 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
                     cFirstName="#form.cFirstName#"
                     cLastName="#form.cLastName#"
                     cPhoneMain="#form.cPhoneMain#"
-                    cPhone800="#form.cPhone800#" 
                     cEmail="#form.cEmail#"
-                    cWebsite="#form.cWebsite#"
                     cStreetNum="#form.cStreetNum#"
                     zipcode="#form.zipcode#"
-                    refType="#form.refType#"
                     contactTypes="#form.contactTypes#"
-                    cownerid="#session.userID#">
-
+                    cownerid="#session.userID#"
+                    ccountry="#form.ccountry#">  
         </cfif>
 
         <!--- Good Result (update Success) --->
         <cfif resultCode GT 0>
+            <!--- Get recently created contact to determine if redirect to contactkey is needed --->
+            <cfinvoke component="/root/functions/contacts" method="getcontacts" returnvariable="mycontact" cid="#resultCode#">
+            <cfif form.newOrder eq 1>
+                <cfset Result["view"] = "redirect;" & Application.urlPath & "/?view=neworder&cid=" & resultCode>
+            </cfif>
+            <cfif mycontact.reqKeys gt 0> 
+                <cfset Result["view"] = "redirect;" & Application.urlPath & "/?view=contactkeys&newOrder=" & form.newOrder & "&cid=" & resultCode>
+            </cfif>
             <cfset Result["success"] = true>
             <cfset Result["message"] = Application.labels["newcontact_success"]>
         </cfif>
@@ -165,14 +170,12 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
                     cFirstName="#form.cFirstName#"
                     cLastName="#form.cLastName#"
                     cPhoneMain="#form.cPhoneMain#"
-                    cPhone800="#form.cPhone800#" 
                     cEmail="#form.cEmail#"
-                    cWebsite="#form.cWebsite#"
                     cStreetNum="#form.cStreetNum#"
                     zipcode="#form.zipcode#"
-                    refType="#form.refType#"
                     contactTypes="#form.contactTypes#"
-                    cId="#form.cId#"> 
+                    cId="#form.cId#"
+                    ccountry="#form.ccountry#"> 
         </cfif>
 
         <!--- Good Result (update Success) --->
@@ -183,6 +186,7 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
 
 
     </cfcase>
+
 
 
     <cfcase value="itemNew">
@@ -240,10 +244,8 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
         <cfelse>
             <!--- Run Component to Create New Account --->
             <cfinvoke component="/root/functions/contacts" method="metamanage" returnvariable="resultCode"
-                cField="#form.cField#" 
-                cValue="#form.cValue#" 
-                cID="#form.cID#"
-                dataID="#form.dataID#">
+                cForm="#form#" 
+                cID="#form.cID#">
         </cfif>
 
         <cfif resultCode GT 0>

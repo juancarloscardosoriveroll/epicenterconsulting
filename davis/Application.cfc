@@ -34,6 +34,7 @@ component
         Application.setup = Application.helper.getSetupFile();        
         Application.permits = Application.setup["permits"];  
         Application.catalogs = createObject('component','root/functions/catalogs');
+        Application.contacts = createObject('component','root/functions/contacts');
         return true;  
     }
 

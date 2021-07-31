@@ -6,7 +6,7 @@
             <div class="card">
                 <div class="card-body"> 
                     <h4 class="card-title">
-                        <a href="#application.urlPath#/?view=contactlist"><i class="fas fa-arrow-left"></i>&nbsp;                        
+                        <a href="#application.urlPath#/?view=contactlist&contactType=#listfirst(ct.allkeys)#"><i class="fas fa-arrow-left"></i>&nbsp;                        
                         #Application.labels['contactedit_header']#</a></h4>
                     <p class="card-title-desc">#Application.labels["contactedit_intro"]#</p> 
     
@@ -14,24 +14,21 @@
                         <input type="hidden" name="cid" value="#ct.cid#">
                         <input type="hidden" name="cOwnerId" value="#ct.cOwnerId#">
 
-                        <!--- REFTYPE --->
+                        <!--- COUNTRY --->
                         <div class="mb-3">
                             <label class="form-label">
-                                #Application.labels['contactedit_refType_label']#
+                                #Application.labels['newcontact_country_label']#
                             </label>
                             <div>
-                                <cfset refTypes = Application.catalogs.getItems('referenceTypes')>
-                                <select name="refType" class="form-select" required >
-                                    <option value="" selected>#Application.labels['general_selectOne']#</option>
-                                    <cfloop query="refTypes">
-                                        <cfif catActive>
-                                            <option value="#itemId#" <cfif itemID eq ct.refType> selected </cfif>>#itemName#</option>
-                                        </cfif>  
+                                <cfinvoke component="/functions/remote" method="getCountries" returnvariable="country">
+                                <cfset myCountries = deserializeJSON(country)>
+                                <select name="cCountry"  class="form-select getStatesfromCountry" data-target="state" data-action="#application.urlPath#/functions/remote.cfc?method=getStates" required>
+                                    <cfloop from="1" to="#arraylen(myCountries)#" index="thisCountry">
+                                        <option value="#myCountries[thisCountry].code#" <cfif myCountries[thisCountry].code eq ct.cCountry> selected </cfif>>#myCountries[thisCountry].name#</option>
                                     </cfloop>
-                                </select>
+                                </select>  
                             </div>
                         </div>
-  
 
                         <!--- ZIPCODE --->  
                         <div class="mb-3">
@@ -42,7 +39,7 @@
                             <div class="input-group-append">
                                 <span class="input-group-text" id="basic-addon2">
                                     <input name="zipcode"
-                                    id="zipcode" type="number" maxlength="5" minlength="5" required
+                                    id="zipcode" type="text" maxlength="10" minlength="3" required
                                     class="form-control-sm"
                                     placeholder="#Application.labels['contactedit_zipcode_help']#" 
                                     value="#ct.zipcode#" />
@@ -63,7 +60,7 @@
                                 #Application.labels['contactedit_company_label']#
                             </label>
                             <div>
-                                <input name="cCoName" type="text" maxlength="50" minlength="5" class="form-control" required  
+                                <input name="cCoName" type="text" maxlength="50" minlength="5" class="form-control"   
                                 placeholder="#Application.labels['contactedit_company_help']#" value="#ct.cCoName#" />
                             </div>
                         </div>
@@ -116,19 +113,7 @@
                         </div>
 
 
-                        <!--- PHONE 800 --->
-                        <div class="mb-3">
-                            <label class="form-label">
-                                #Application.labels['contactedit_phone800_label']#
-                            </label>
-                            <div>
-                                <input name="cPhone800" type="text" data-parsley-type="number" maxlength="50" minlength="5" class="form-control"  
-                                placeholder="#Application.labels['contactedit_phone800_help']#"  value="#ct.cPhone800#"/>  
-                            </div>
-                        </div>
-
-
-                        <!--- EMAIL --->
+                        <!--- EMAIL ---> 
                         <div class="mb-3">
                             <label class="form-label">
                                 #Application.labels['contactedit_email_label']#
@@ -139,23 +124,28 @@
                             </div>
                         </div>
 
-                        <!--- WEBSITE --->
-                        <div class="mb-3">
-                            <label class="form-label">
-                                #Application.labels['contactedit_website_label']#
-                            </label>
-                            <div>
-                                <input name="cWebsite" type="text" data-parsley-type="url" maxlength="150" minlength="5" class="form-control"  
-                                placeholder="#Application.labels['contactedit_website_help']#"  value="#ct.cWebsite#"/>  
-                            </div>
-                        </div>
-
                         <!--- SWITCHES --->
                         <div class="row">
                             <div class="col-sm">
+                                <!--- isAcct --->
+                                <div class="form-check form-switch">
+                                    #Application.labels['contactlist_isAcct']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isAcct" value="isAcct" data-parsley-mincheck="1" <cfif ct.isAcct> checked </cfif>>
+                                </div>
+                            </div>
+
+                            <div class="col-sm">
+                                <!--- isInsd --->
+                                <div class="form-check form-switch">
+                                    #Application.labels['contactlist_isInsd']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isInsd" value="isInsd" <cfif ct.isInsd> checked </cfif>>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-sm">
                                 <!--- isLead --->
                                 <div class="form-check form-switch"> 
-                                    #Application.labels['contactlist_isLead']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isLead" value="isLead" data-parsley-mincheck="1" <cfif ct.isLead> checked </cfif>>
+                                    #Application.labels['contactlist_isLead']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isLead" value="isLead" <cfif ct.isLead> checked </cfif>>
                                 </div>
                             </div>
 
@@ -189,6 +179,15 @@
                                     #Application.labels['contactlist_isSALC']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isSALC" value="isSALC" <cfif ct.isSalc> checked </cfif>>
                                 </div>
                             </div>
+                            <div class="col-sm">
+                                <!--- isOffice --->
+                                <div class="form-check form-switch">
+                                    #Application.labels['contactlist_isOffice']#<input class="form-check-input" type="checkbox"  name="contactTypes" id="isOffice" value="isOffice" <cfif ct.isOffice> checked </cfif>>
+                                </div>
+                            </div>
+
+
+
                         </div>
                         <label for="contactTypes"></label>                        
 
@@ -220,66 +219,66 @@
 
 <!--- ZIPCODE Modal --->   
 <cfoutput> 
-<div class="modal fade zipcode-modal" tabindex="-1" role="dialog"
-    aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title mt-0" id="mySmallModalLabel">ZipCode Finder</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-
-                <form>
-                <div class="row">
-                    <div class="mb-3">
-                        <label class="form-label">State</label>
-                        <div>
-                            <cfinvoke component="/root/functions/remote" method="getStates" returnvariable="states">
-                            <cfset mystates = deserializeJSON(states)>
-                            <select name="state" class="form-select stateToCounty" style="width: 100%;" id="state" data-target="county" data-action="http://tutoro.me/davis/functions/remote.cfc?method=getCounties">
-                                <option value="">Select State</option>
-                                <cfloop from="1" to="#arraylen(mystates)#" index="X">
-                                    <option value="#mystates[X].abbreviation#">#mystates[X].name#</option>
-                                </cfloop>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">County</label>
-                        <div>
-                            <select name="county" class="form-select countyToCity" style="width: 100%;" id="county" data-target="city" data-action="http://tutoro.me/davis/functions/remote.cfc?method=getCities">
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">City</label>
-                        <div>
-                            <select name="city" class="form-select" id="city" style="width: 100%;">
-                            </select>
-                        </div>
-                    </div>
-
-
-                    <div class="text-center">
-                        <a class="btn btn-primary waves-effect waves-light me-1 updateZipCode">
-                            Select this Zipcode
-                        </a>
-                    </div>
-
-
-
+    <div class="modal fade zipcode-modal" tabindex="-1" role="dialog"
+        aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0" id="mySmallModalLabel">ZipCode Finder</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
-                </form>
-
+                <div class="modal-body"> 
+    
+                    <form>
+                    <div class="row">
+                        <div class="mb-3">
+                            <label class="form-label">State</label>
+                            <div>
+                                <cfinvoke component="/root/functions/remote" method="getStates" country="#ct.ccountry#" returnvariable="states">
+                                <cfset mystates = deserializeJSON(states)>
+                                <select name="state" class="form-select stateToCounty" style="width: 100%;" id="state" data-target="county" data-action="#application.urlPath#/functions/remote.cfc?method=getCounties">
+                                    <option value="">Select State</option>
+                                    <cfloop from="1" to="#arraylen(mystates)#" index="X">
+                                        <option value="#ct.ccountry#,#mystates[X].abbreviation#">#mystates[X].name#</option>
+                                    </cfloop>
+                                </select>
+                            </div>
+                        </div>
+    
+                        <div class="mb-3">
+                            <label class="form-label">County</label>
+                            <div>
+                                <select name="county" class="form-select countyToCity" style="width: 100%;" id="county" data-target="city" data-action="#application.urlPath#/functions/remote.cfc?method=getCities">
+                                </select>
+                            </div>
+                        </div>
+    
+                        <div class="mb-3">
+                            <label class="form-label">City</label>
+                            <div>
+                                <select name="city" class="form-select" id="city" style="width: 100%;">
+                                </select>
+                            </div>
+                        </div>
+    
+    
+                        <div class="text-center">
+                            <a class="btn btn-primary waves-effect waves-light me-1 updateZipCode">
+                                Select this Zipcode
+                            </a>
+                        </div>
+    
+    
+    
+                    </div>
+                    </form>
+    
+                </div>
             </div>
+            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-content -->
+        <!-- /.modal-dialog -->
     </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-</cfoutput>
+    <!-- /.modal -->
+    </cfoutput>

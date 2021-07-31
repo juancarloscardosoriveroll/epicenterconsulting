@@ -27,17 +27,33 @@
                         <i class="#Application.labels['sidemenu_home_icon']#"></i>
                         <span>#Application.labels['sidemenu_home_group']#</span>
                     </a>
+                    <!--- Orders --->
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="#Application.urlPath#/?view=orderlist">#Application.labels['sidemenu_home_group_orderlist']#</a></li>
+                    </ul>
+
+
                     <!--- Dashboard --->
+                    <!---
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="index.cfm">#Application.labels['sidemenu_home_group_dashboard']#</a></li>
                     </ul>
+                    --->
+                    
                     <!--- Users --->
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="#Application.urlPath#/?view=userlist">#Application.labels['sidemenu_users_group']#</a></li>
                     </ul>
+                    <!--- Help --->
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="#Application.urlPath#/?view=faqs">#Application.labels['sidemenu_help_group']#</a></li>
+                    </ul>
+
+
                 </li>
 
                 <!--- Contacts ---> 
+                <cfset Count = Application.contacts.getStats()>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="#Application.labels['sidemenu_contacts_icon']#"></i>
@@ -46,40 +62,56 @@
 
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
+                            <a href="#Application.urlPath#/?view=contactlist&contactType=isAcct">
+                                <span>#Application.labels['sideMenu_contacts_isAcct']# (#Count["isAcct"]#)</span>
+                            </a> 
+                        </li>
+
+                        <li>
+                            <a href="#Application.urlPath#/?view=contactlist&contactType=isInsd">
+                                <span>#Application.labels['sideMenu_contacts_isInsd']# (#Count["isInsd"]#)</span>
+                            </a> 
+                        </li>
+
+                        <li>
                             <a href="#Application.urlPath#/?view=contactlist&contactType=isLead">
-                                <span>#Application.labels['sideMenu_contacts_isLead']#</span>
+                                <span>#Application.labels['sideMenu_contacts_isLead']# (#Count["isLead"]#)</span>
                             </a> 
                         </li>
 
                         <li>
                             <a href="#Application.urlPath#/?view=contactlist&contactType=isMarina">
-                                <span>#Application.labels['sideMenu_contacts_isMarina']#</span>
+                                <span>#Application.labels['sideMenu_contacts_isMarina']# (#Count["isMarina"]#)</span>
                             </a> 
                         </li>
 
                         <li>
                             <a href="#Application.urlPath#/?view=contactlist&contactType=isOEM">
-                                <span>#Application.labels['sideMenu_contacts_isOEM']#</span>
+                                <span>#Application.labels['sideMenu_contacts_isOEM']# (#Count["isOEM"]#)</span>
                             </a> 
                         </li>
 
                         <li>
                             <a href="#Application.urlPath#/?view=contactlist&contactType=isMFG">
-                                <span>#Application.labels['sideMenu_contacts_isMFG']#</span>
+                                <span>#Application.labels['sideMenu_contacts_isMFG']# (#Count["isMFG"]#)</span>
                             </a> 
                         </li>
 
                         <li>
                             <a href="#Application.urlPath#/?view=contactlist&contactType=isSalC">
-                                <span>#Application.labels['sideMenu_contacts_isSalC']#</span>
+                                <span>#Application.labels['sideMenu_contacts_isSalC']# (#Count["isSalC"]#)</span>
                             </a> 
                         </li>
                         <li>
                             <a href="#Application.urlPath#/?view=contactlist&contactType=isOmim">
-                                <span>#Application.labels['sideMenu_contacts_isOmim']#</span>
+                                <span>#Application.labels['sideMenu_contacts_isOmim']# (#Count["isOmim"]#)</span>
                             </a> 
                         </li>
-
+                        <li>
+                            <a href="#Application.urlPath#/?view=contactlist&contactType=isOffice">
+                                <span>#Application.labels['sideMenu_contacts_isOffice']# (#Count["isOffice"]#)</span>
+                            </a> 
+                        </li>
 
                     </ul>
                 </li>
@@ -92,12 +124,13 @@
                     </a>
 
                     <!--- Dynamic --->
+                    <cfset Count = Application.catalogs.getStats()>
                     <cfloop from="1" to="#arraylen(Application.setup.catalogs)#" index="CT">
                         <cfset TC = Application.setup.catalogs[CT]>
                         <ul class="sub-menu" aria-expanded="false">
                             <li>
                                 <a href="#Application.urlPath#/?view=catalogs&catType=#trim(TC.id)#">
-                                    <span>#TC.display#</span>
+                                    <span>#TC.display# (#evaluate("Count." & TC.id)#)</span>
                                 </a> 
                             </li>
                         </ul>

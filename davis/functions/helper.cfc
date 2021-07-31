@@ -82,5 +82,13 @@
         <cfreturn profile>
     </cffunction>
 
+    <cffunction name="getFaqs" hint="Returns all facts">
+        <cfargument name="faqGroup">
+        <cfquery dbtype="odbc" datasource="#application.datasource#" name="faq">
+            select * from _faqs 
+            where faqGroup = <cfqueryparam value="#arguments.faqGroup#">
+        </cfquery>
+        <cfreturn faq>
+    </cffunction>
 
 </cfcomponent>

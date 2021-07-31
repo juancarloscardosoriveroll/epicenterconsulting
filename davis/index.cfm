@@ -10,7 +10,7 @@
 </cfif>
 
 <!--- Define Initial View Parameters --->
-<cfparam name="view" default="dashboard">
+<cfparam name="view" default="orderlist">
 <cfif not(isdefined("session.userID"))><cfset view="login"></cfif>
 
 <cfoutput>

@@ -1,4 +1,5 @@
 <cfparam name="contactType" default="isLead"> 
+<cfif len(contactType) eq 0><cfset contactType = "isLead"></cfif>
 <cfinvoke component="/root/functions/contacts" method="getContacts" returnvariable="Contacts" contactTypes="#contactType#" />
 
 <cfoutput>
@@ -8,7 +9,7 @@
             <div class="card-head mt-5">
                 <div class="d-print-none">
                     <div class="float-end">   
-                        <a href="#application.urlPath#/?view=newContact" class="btn btn-primary w-md waves-effect waves-light">
+                        <a href="#application.urlPath#/?view=newContact&contactType=#contactType#" class="btn btn-primary w-md waves-effect waves-light">
                             <i class="fa fa-user-plus"> #Application.labels['contactlist_addnew']# </i>
                         </a>  
                         &nbsp;   
@@ -29,8 +30,7 @@
                             <th>#Application.labels['general_company']#</th>
                             <th>#Application.labels['general_name']#</th>
                             <th>#Application.labels['general_contact']#</th>
-                            <th><i class="dripicons-information"></i></th>
-                            <th>#Application.labels['general_owner']#</th>
+                            <th>#Application.labels['general_meta']#</th>
                             <th>isValid</th>
                         </tr>
                     </thead>
@@ -41,14 +41,13 @@
                                 <td>
                                     #cID#
                                 </td>
-                                <td><a href="#Application.urlPath#/index.cfm?view=contactEdit&cId=#cId#">#trim(cCoName)#</a></td>
-                                <td>#trim(cFirstName)#<br>#trim(cLastName)#</td>
+                                <td>#trim(cCoName)#</a></td>
+                                <td><a href="#Application.urlPath#/index.cfm?view=contactEdit&cId=#cId#">#trim(cFirstName)#<br>#trim(cLastName)#</a></td>
                                 <td>#trim(cEmail)#<br>#trim(cPhoneMain)#</td>
                                 <td>
                                     <!--- Link to Metadata --->
                                     <a href="#Application.urlPath#/index.cfm?view=contactMeta&cId=#cId#">#meta#</a>
                                 </td>
-                                <td>#trim(userFirstName)#<br>#trim(userLastName)#</td>   
                                 <td>
                                     <!--- daToggle Function --->
                                     <cfset randomID = createUUID()>
