@@ -16,5 +16,6 @@
     "E_10" : "%zipcode is not a valid US zipcode",
     "E_11" : "%cPhoneMain is an Invalid Phone",
     "E_12" : "Phone Number is not allowed to Repeat",
-    "E_13" : "Email is not allowed to Repeat"     
+    "E_13" : "Email is not allowed to Repeat",  
+    "E_14" : "Key %cCustomKey is already in use"   
 }

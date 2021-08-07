@@ -98,7 +98,6 @@ $(".getStatesfromCountry").on("change",function(event){
 });
 
 
-
 $(".stateToCounty").on("change",function(event){
     /* Convert from URL Data Attr to Dynamic Form so to use daForm logic */
     var tempval = $(this).val();
@@ -155,20 +154,37 @@ $(".updateZipCode").on("click",function(event){
 $( function() {
     
     $( ".cid" ).autocomplete({
-      source: "http://tutoro.me/davis/functions/remote.cfc?method=AC_Contacts&contactType=" + $(".cid").data("type"),
+      source: $(".cid").data("type"),
       minLength: 2,
       select: function( event, ui ) {
-        $("#insName").val(ui.item.label);
-        $("#insAddress").val(ui.item.address);
-        $("#insContact").val(ui.item.contact);
-
+        $("#insName").val(ui.item.label + " " + ui.item.address + " " + ui.item.contact);
       }
     });
 });
 
 
+
+$(".populate").on("change",function(event){
+
+    var myCallback = $(this).data("callback");
+    var myValue = $(this).val() + "&id=" + $(this).data("value");
+    var myAction = $(this).data("action") + "&type=" + myValue; 
+
+    $.get(myAction, function(data){
+
+        // change calling element
+        try { $("#" + myCallback).html(data);  }  
+        catch (error) {/*ignore*/}      
+
+    });
+
+});
+
+
+
 $(document).ready(function() {
     $("#datatable").DataTable()
 });
+
 
 

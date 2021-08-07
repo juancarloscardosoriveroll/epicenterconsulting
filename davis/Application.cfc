@@ -28,13 +28,15 @@ component
     function onApplicationStart() {
         Application.datasource = "davis";    
         Application.urlPath = "http://tutoro.me/davis";
-        Application.helper = createObject('component','root/functions/helper');
         Application.labels = Application.helper.getLangFile();
         Application.errors = Application.helper.getErrorFile();
         Application.setup = Application.helper.getSetupFile();        
         Application.permits = Application.setup["permits"];  
+        Application.helper = createObject('component','root/functions/helper');
         Application.catalogs = createObject('component','root/functions/catalogs');
         Application.contacts = createObject('component','root/functions/contacts');
+        Application.users = createObject('component','root/functions/users');
+        Application.orders = createObject('component','root/functions/orders');
         return true;  
     }
 

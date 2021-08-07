@@ -221,15 +221,15 @@
         <i class="fa fa-fw fa-bars"></i>
     </button>
     
-
-    <!--- Search
-    <form Class="app-search d-none d-lg-inline-block">
-        <div class="position-relative">
-            <input type="text" class="form-control" placeholder="Search...">
-            <span class="bx bx-search-alt"></span>
-        </div>
-    </form>
-    --->
+    <!--- Search --->
+    <cfif isdefined("session.userid")>
+        <form Class="app-search d-none d-lg-inline-block" method="post" action="#application.urlPath#/index.cfm?view=searchResult">
+            <div class="position-relative">
+                <input type="text" class="form-control" placeholder="Search..." name="q">
+                <span class="bx bx-search-alt"></span>
+            </div>
+        </form>
+    </cfif>
 
     <!--- Mega Menu --->
     <!--- <cfinclude template="/root/includes/megamenu.cfm"> --->

@@ -2,6 +2,7 @@
     <cffunction name="getItems" hint="returns items from catalogs for index/link">
         <cfargument name="catType" required="true">
         <cfargument name="itemId" required="false" default="0">
+        <cfargument name="catActive" required="false" default="ALL" hint="ALL,1,0">
 
         <cfquery dbtype="odbc" datasource="#application.datasource#" name="rows">
             select c.itemid, c.itemname, c.itemdesc, c.catactive, c.ownerid, c.cattype, c.catdate, 
@@ -10,6 +11,9 @@
             where catType = <cfqueryparam value="#arguments.catType#">
             <cfif arguments.itemID gt 0>
                 and itemId = <cfqueryparam value="#arguments.itemId#">
+            </cfif>
+            <cfif arguments.catActive neq 'ALL'>
+                and catActive = <cfqueryparam value="#arguments.catActive#">
             </cfif>
             and ownerid = u.userid
         </cfquery>

@@ -52,6 +52,18 @@
                         </div>
 
 
+                        <!--- CCUSTOMKEY --->
+                        <div class="mb-3">
+                            <label class="form-label">
+                                #Application.labels['newcontact_customKey_label']#
+                            </label>
+                            <div>
+                                <input name="cCustomKey" type="text" maxlength="10" minlength="2" class="form-control"  
+                                placeholder="#Application.labels['newcontact_customKey_help']#" value="#ct.ccustomKey#" />
+                            </div>
+                        </div>
+
+
 
 
                         <!--- COMPANY NAME --->

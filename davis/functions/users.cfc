@@ -237,4 +237,21 @@
 
         <cfreturn accessToken>
     </cffunction>
+
+
+    <cffunction name="getUsersbyPermit">
+        <cfargument name="permitname">
+
+        <cfquery dbtype="odbc" datasource="#application.datasource#" name="usrs">
+            select u.userfirstname, u.userlastname, u.userEmail, u.userPhone, u.userid
+            from _users u, _users_permits p
+            where u.userid = p.userid 
+            and u.useractive = 1
+            and p.permitname = <cfqueryparam value="#arguments.permitname#">
+        </cfquery>
+
+        <cfreturn usrs>
+
+    </cffunction>
+
 </cfcomponent>

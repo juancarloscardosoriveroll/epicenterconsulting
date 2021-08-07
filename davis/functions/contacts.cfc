@@ -2,6 +2,7 @@
     <cffunction name="getContacts">
         <cfargument name="contactTypes" required="false" default="" type="string" hint="list of types">
         <cfargument name="cID" default="0" type="integer" required="false">
+        <cfargument name="cIsValid" default="BOTH" required="false" hint="1,0,BOTH">
 
         <cfquery dbtype="odbc" datasource="#application.datasource#" name="data">
         select c.*, u.userFirstName, 0 as meta, 0 as keys, 0 as reqkeys, '' as allkeys 
@@ -37,7 +38,10 @@
 
             <cfif arguments.cid gt 0>
                 and c.cid = <cfqueryparam value="#arguments.cid#">
-            </cfif>               
+            </cfif>    
+            <cfif arguments.cIsValid neq 'BOTH'>
+                and c.cisValid = <cfqueryparam value="#arguments.cIsValid#">                
+            </cfif>           
         order by c.cID desc     
         </cfquery> 
 
@@ -122,6 +126,17 @@
             </cfif>
         </cfif>
 
+        <!--- NO DUPLICATES --->
+        <cfif len(trim(arguments.cCustomKey)) gt 0>
+            <cfquery dbtype="odbc" datasource="#application.datasource#" name="checkKey">
+                select * from _contacts 
+                where cCustomKey = <cfqueryparam value="#arguments.cCustomKey#">
+            </cfquery>
+            <cfif checkKey.recordcount neq 0>
+                <cfreturn -14>
+            </cfif>
+        </cfif>
+
         <!--- We are ready to insert --->
         <cftry>
 
@@ -146,6 +161,7 @@
                 ,isInsd
                 ,isOffice
                 ,cOwnerId  
+                ,cCustomKey
             )
             VALUES 
             (
@@ -167,6 +183,7 @@
                 ,<cfif listfindnocase(arguments.contactTypes,"isInsd")>1<cfelse>0</cfif>
                 ,<cfif listfindnocase(arguments.contactTypes,"isOffice")>1<cfelse>0</cfif>
                 ,<cfqueryparam value="#arguments.cOwnerId#">
+                ,<cfqueryparam value="#arguments.cCustomKey#">
             )
             </cfquery>
              <cfreturn insert["GENERATEDKEY"]>
@@ -225,6 +242,18 @@
             </cfif>
         </cfif>
 
+        <!--- NO DUPLICATES --->
+        <cfif len(trim(arguments.cCustomKey)) gt 0>
+            <cfquery dbtype="odbc" datasource="#application.datasource#" name="checkKey">
+                select * from _contacts 
+                where cCustomKey = <cfqueryparam value="#arguments.cCustomKey#">
+                and cid <> #arguments.CID#
+            </cfquery>
+            <cfif checkKey.recordcount neq 0>
+                <cfreturn -14>
+            </cfif>
+        </cfif>
+
         <!--- We are ready to update --->
         <cftry>
 
@@ -247,6 +276,7 @@
                 ,isAcct =<cfif listfindnocase(arguments.contactTypes,"isAcct")>1<cfelse>0</cfif>
                 ,isInsd =<cfif listfindnocase(arguments.contactTypes,"isInsd")>1<cfelse>0</cfif>
                 ,isOffice =<cfif listfindnocase(arguments.contactTypes,"isOffice")>1<cfelse>0</cfif>
+                ,cCustomKey = <cfqueryparam value="#arguments.cCustomKey#">
                 ,cLastDate = #createODBCDatetime(now())#
             where cid = <cfqueryparam value="#arguments.cid#">
             </cfquery>
@@ -282,7 +312,6 @@
 
     </cffunction>
 
-
     <cffunction name="getContactsMeta">
         <cfargument name="cId">
 
@@ -299,6 +328,59 @@
         </cfloop>
 
         <cfreturn result>
+    </cffunction>
+
+    <cffunction name="getContactsFromMeta">
+        <cfargument name="contactType">
+        <cfargument name="filterKeys" required="false" default="">
+
+        <cfset result = arraynew(1)>
+
+        <!--- get keyID --->
+        <cfloop from="1" to="#arraylen(application.setup.rkeycontacts)#" index="TC">
+            <cfif (application.setup.rkeycontacts[TC].type eq arguments.contactType) and 
+                  (application.setup.rkeycontacts[TC].isPrimary)>
+                <cfset metaKey = application.setup.rkeycontacts[TC].fieldName>
+
+                <cfquery dbtype="odbc" datasource="#application.datasource#" name="refs">
+                    select * from _contacts_data d, _contacts c, _catalogs t
+                    where c.cid = d.cid 
+                    and d.cValue = t.itemid 
+                    and d.cField = <cfqueryparam value="#metaKey#">
+                    and c.cisValid = 1
+                    order by itemName asc, cfirstName asc, cCoName asc
+                </cfquery>
+                
+                <cfoutput query="refs">
+                    <cfset AddRow = true>
+                    <cfif len(arguments.filterKeys) gt 0>
+                        <cfif Not(listfindnocase(arguments.filterKeys,trim(itemName)))>
+                            <cfset AddRow = false>
+                        </cfif>
+                    </cfif>
+                    <cfif AddRow>
+                        <cfset temp_s = structnew()>
+                        <cfset temp_s["cid"] = cid> 
+                        <cfset temp_s["itemName"] = "">
+                        <cfif isdefined("itemName")>
+                            <cfset temp_s["itemName"] = itemName> 
+                        </cfif>
+                        <cfset temp_s["cCoName"] = trim(cCoName)>
+                        <cfset temp_s["cFirstName"] = trim(cFirstName)>
+                        <cfset temp_s["cEmail"] = trim(cEmail)>
+                        <cfset temp_s["cPhoneMain"] = trim(cPhoneMain)>
+                        <cfset temp_s["zipcode"] = trim(zipcode)>
+                        <cfset temp_s["cCustomKey"] = trim(cCustomKey)> 
+                        <cfset arrayappend(result,temp_s)>
+                    </cfif>
+                </cfoutput>
+
+
+            </cfif>
+        </cfloop>
+
+        <cfreturn result>
+
     </cffunction>
 
 

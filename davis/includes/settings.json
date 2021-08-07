@@ -8,7 +8,8 @@
     [
         "catalogs.itemnew",
         "catalogs.itemedit",
-        "catalogs.active"
+        "catalogs.active",
+        "orders.surveyor"
     ],
     "duplicate_skip_words" : ["bank","salvage","1st"],
     "catalogs" : [
@@ -36,11 +37,13 @@
         {"permitName" : "catalogs.active", "describe" : "enable or disable catalog items"},
         {"permitName" : "contacts.new", "describe" : "register new contacts"},
         {"permitName" : "contacts.edit", "describe" : "update other user´s contacts"}, 
-        {"permitName" : "contacts.active", "describe" : "enable or disable contacts"}
+        {"permitName" : "contacts.active", "describe" : "enable or disable contacts"},
+        {"permitName" : "orders.surveyor", "describe" : "enables the user as surveyor"},
+        {"permitName" : "orders.ordernew", "describe" : "allows users to create orders"},
+        {"permitName" : "orders.orderedit", "describe" : "allows users to edit orders"}
     ],
     "metacontacts" : 
     [ 
-        {"type" : "isSalC", "fieldName" : "Interests", "dataType" : "textarea", "default" : ""},
         {"type" : "isMarina", "fieldName" : "Port", "dataType" : "text", "default" : ""},
         {"type" : "isMarina", "fieldName" : "Manager", "dataType" : "text", "default" : ""},
         {"type" : "isMarina", "fieldName" : "Slips", "dataType" : "number", "default" : 0},
@@ -56,6 +59,8 @@
         {"type" : "isMarina", "fieldName" : "HRRate", "dataType" : "number", "default" : 0},
         {"type" : "isMarina", "fieldName" : "AsOfDate", "dataType" : "date", "default" : ""},
 
+        {"type" : "isSalC", "fieldName" : "Interests", "dataType" : "textarea", "default" : ""},
+
         {"type" : "all", "fieldName" : "Phone800", "dataType" : "text", "default" : ""},
         {"type" : "all", "fieldName" : "Website", "dataType" : "text", "default" : ""},
         {"type" : "all", "fieldName" : "Title", "dataType" : "text", "default" : ""},
@@ -65,8 +70,20 @@
     ],
     "rkeycontacts" : 
     [
-        {"type" : "isAcct", "catalog" : "accountTypes", "fieldName" : "acctCode", "default" : 0},
-        {"type" : "isLead", "catalog" : "referenceTypes", "fieldName" : "refType", "default" : 0}
+        {"type" : "isAcct", "catalog" : "accountTypes", "fieldName" : "typeacct", "default" : 0, "isPrimary" : true},
+        {"type" : "isLead", "catalog" : "referenceTypes", "fieldName" : "refType", "default" : 0, "isPrimary" : false}
+    ],
+    "orderNotes" :
+    [
+        {"label" : "Job recap", "value" : "jobRecap"},
+        {"label" : "Survey", "value" : "survey"},
+        {"label" : "Comment", "value" : "comment"},
+        {"label" : "Accident", "value" : "accident"},
+        {"label" : "Conclusion", "value" : "conclusion"},
+        {"label" : "Incident", "value" : "incident"},
+        {"label" : "Billing", "value" : "billing"},
+        {"label" : "Non-Loss", "value" : "nonLoss"},
+        {"label" : "Special", "value" : "special"},
+        {"label" : "Notes", "value" : "notes"}
     ]
-
 }

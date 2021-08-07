@@ -14,7 +14,7 @@
 
 
     <cffunction name="getStates" access="remote" hint="returns a list of states" returnformat="plain">
-        <cfargument name="country">
+        <cfargument name="country" default="US">
 
         <cfswitch expression="#arguments.country#">
             <cfcase value="US">
@@ -104,14 +104,13 @@
                     where c.isInsd = 1
                     and c.zipcode = z.zipcode
                     and c.cCountry = z.countryISO
-                    and c.cFirstName like <cfqueryparam value="#arguments.term#%">
-                     or c.cLastName like <cfqueryparam value="#arguments.term#%">
-                     or c.cCoName like <cfqueryparam value="#arguments.term#%">
-
-                     <cfif isnumeric(arguments.term)>
-                        or c.cid = <cfqueryparam value="#arguments.term#">
+                    <cfif isnumeric(arguments.term)>
+                        and c.cid = <cfqueryparam value="#arguments.term#">
+                    <cfelse>                        
+                        and (c.cFirstName like <cfqueryparam value="#arguments.term#%">
+                        or c.cLastName like <cfqueryparam value="#arguments.term#%">
+                        or c.cCoName like <cfqueryparam value="#arguments.term#%">)
                      </cfif>
-                    
                 </cfquery>
 
                 <cfloop query="data">

@@ -138,7 +138,8 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
                     zipcode="#form.zipcode#"
                     contactTypes="#form.contactTypes#"
                     cownerid="#session.userID#"
-                    ccountry="#form.ccountry#">  
+                    ccountry="#form.ccountry#"
+                    ccustomKey="#form.ccustomKey#">  
         </cfif>
 
         <!--- Good Result (update Success) --->
@@ -149,7 +150,7 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
                 <cfset Result["view"] = "redirect;" & Application.urlPath & "/?view=neworder&cid=" & resultCode>
             </cfif>
             <cfif mycontact.reqKeys gt 0> 
-                <cfset Result["view"] = "redirect;" & Application.urlPath & "/?view=contactkeys&newOrder=" & form.newOrder & "&cid=" & resultCode>
+                <cfset Result["view"] = "redirect;" & Application.urlPath & "/?view=contactmeta&newOrder=" & form.newOrder & "&cid=" & resultCode>
             </cfif>
             <cfset Result["success"] = true>
             <cfset Result["message"] = Application.labels["newcontact_success"]>
@@ -175,7 +176,8 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
                     zipcode="#form.zipcode#"
                     contactTypes="#form.contactTypes#"
                     cId="#form.cId#"
-                    ccountry="#form.ccountry#"> 
+                    ccountry="#form.ccountry#" 
+                    ccustomKey="#form.ccustomKey#">  
         </cfif>
 
         <!--- Good Result (update Success) --->
@@ -291,6 +293,78 @@ with regards to view you can use "redirect,reload or stay" in redirect use ";" t
 
     </cfcase>
 
+ 
+    <cfcase value="neworder">
+        <cfif Not(isdefined("session.userid"))>
+            <cfset resultCode = -1002>  <!--- Needs to Login --->
+        <cfelseif Not(Application.helper.hasPermit(session.userid,"orders.ordernew"))>
+            <cfset resultCode = -1003> <!--- Doesn´t have Permission --->
+        <cfelse>
+            <!--- Run Component to Create New Account --->
+            <cfinvoke component="/root/functions/orders" method="ordernew" returnvariable="resultCode"
+            cid_isinsd="#form.cid_isinsd#"
+            cid_isacct="#form.cid_isacct#"
+            uid_surveyor="#form.uid_surveyor#"
+            cat_sourcetype="#form.cat_sourcetype#"
+            cat_claimtype="#form.cat_claimtype#"
+            cid_isoffice="#form.cid_isoffice#"
+            ownerid="#session.userID#">
+        </cfif>
+
+        <cfif resultCode GT 0>
+            <cfset Result["success"] = true>
+            <cfset Result["message"] = Application.labels["neworder_success"]>
+            <cfset Result["view"] = "redirect;" & Application.urlPath & "/?view=orderlist">
+            <cfset form["orderId"] = resultCode> <!--- add this to form to customize msg --->
+        </cfif>
+
+    </cfcase>
+ 
+
+    <cfcase value="orderEdit">
+        <cfif Not(isdefined("session.userid"))>
+            <cfset resultCode = -1002>  <!--- Needs to Login --->
+        <cfelseif Not(Application.helper.hasPermit(session.userid,"orders.orderedit"))>
+            <cfset resultCode = -1003> <!--- Doesn´t have Permission --->
+        <cfelse>
+            <!--- Run Component to Create New Account --->
+            <cfinvoke component="/root/functions/orders" method="orderEdit" returnvariable="resultCode"
+            cid_isacct="#form.cid_isacct#"
+            uid_surveyor="#form.uid_surveyor#"
+            cat_sourcetype="#form.cat_sourcetype#"
+            cat_claimtype="#form.cat_claimtype#"
+            cid_isoffice="#form.cid_isoffice#"
+            orderid="#form.orderid#">
+        </cfif>
+
+        <cfif resultCode GT 0>
+            <cfset Result["success"] = true>
+            <cfset Result["view"] = "redirect;" & Application.urlPath & "/?view=orderlist">
+            <cfset Result["message"] = Application.labels["orderedit_success"]>
+        </cfif>
+    </cfcase>
+
+
+
+    <cfcase value="orderNotes">
+        <cfif Not(isdefined("session.userid"))>
+            <cfset resultCode = -1002>  <!--- Needs to Login --->
+        <cfelseif Not(Application.helper.hasPermit(session.userid,"orders.orderedit"))>
+            <cfset resultCode = -1003> <!--- Doesn´t have Permission --->
+        <cfelse>
+            <!--- Run Component to Create New Account --->
+            <cfinvoke component="/root/functions/orders" method="saveOrderNotes" returnvariable="resultCode"
+            orderNote_value="#form.orderNote_value#"
+            orderNote_type="#form.orderNote_type#"
+            orderId="#form.orderid#">
+        </cfif>
+
+        <cfif resultCode GT 0>
+            <cfset Result["success"] = true>
+            <cfset Result["message"] = Application.labels["general_success"]>
+            <cfset Result["view"] = "reload;" & "self">
+        </cfif>
+    </cfcase>
 
 
 </cfswitch>
